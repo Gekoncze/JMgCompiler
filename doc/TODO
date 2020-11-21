@@ -1,5 +1,5 @@
 ### DONE ### -----------------------------------------------------------------------------------------------------------
-added support for relative usages
+removed filtering by parent
 
 
 ### NOW ### ------------------------------------------------------------------------------------------------------------
@@ -11,9 +11,6 @@ to do
 new implementation
     add alias component
     make contexts unwrap aliases during resolve
-
-    I think lets leave filtering by parent for now
-        it is already pretty complicated now and we are stuck at one place for a very long time
 
     casts can be done using as operator
         as operator could take text as left and type as right

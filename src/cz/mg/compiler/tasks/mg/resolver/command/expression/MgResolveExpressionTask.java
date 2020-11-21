@@ -15,23 +15,14 @@ import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.Mg
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.compiler.tasks.mg.resolver.MgResolveTask;
 import cz.mg.language.entities.mg.runtime.utilities.DeclarationHelper;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 
 
 public abstract class MgResolveExpressionTask extends MgResolveTask {
     @Mandatory @Input
     protected final CommandContext context;
 
-    @Optional @Input
-    private final ExpectedParentInput parent;
-
-    public MgResolveExpressionTask(CommandContext context, ExpectedParentInput parent) {
+    public MgResolveExpressionTask(CommandContext context) {
         this.context = context;
-        this.parent = parent;
-    }
-
-    public ExpectedParentInput getParent() {
-        return parent;
     }
 
     public @Optional abstract MgExpression getExpression();
@@ -42,50 +33,39 @@ public abstract class MgResolveExpressionTask extends MgResolveTask {
 
         onResolve();
 
-        updateRemainingParentSlots();
-
         DeclarationHelper.raise();
     }
 
     protected abstract void onResolve();
 
-    private void updateRemainingParentSlots(){
-        if(getParent() != null){
-            for(int i = 0; i < getExpression().getOutputConnectors().count(); i++){
-                getParent().getDatatypes().removeFirst();
-            }
-        }
-    }
-
-    protected MgExpression resolveChild(MgUnresolvedCallExpression logicalExpression, ExpectedParentInput parent){
-        MgResolveExpressionTask task = MgResolveExpressionTask.create(context, logicalExpression, parent);
+    protected MgExpression resolveChild(MgUnresolvedCallExpression logicalExpression){
+        MgResolveExpressionTask task = MgResolveExpressionTask.create(context, logicalExpression);
         task.run();
         return task.getExpression();
     }
 
     public static MgResolveExpressionTask create(
         CommandContext context,
-        MgUnresolvedCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedCallExpression logicalExpression
     ){
         if(logicalExpression instanceof MgUnresolvedNameCallExpression) {
-            return MgResolveNameExpressionTask.create(context, (MgUnresolvedNameCallExpression) logicalExpression, parent);
+            return MgResolveNameExpressionTask.create(context, (MgUnresolvedNameCallExpression) logicalExpression);
         }
 
         if(logicalExpression instanceof MgUnresolvedValueCallExpression){
-            return new MgResolveValueExpressionTask(context, (MgUnresolvedValueCallExpression) logicalExpression, parent);
+            return new MgResolveValueExpressionTask(context, (MgUnresolvedValueCallExpression) logicalExpression);
         }
 
         if(logicalExpression instanceof MgUnresolvedOperatorCallExpression){
-            return MgResolveOperatorExpressionTask.create(context, (MgUnresolvedOperatorCallExpression) logicalExpression, parent);
+            return MgResolveOperatorExpressionTask.create(context, (MgUnresolvedOperatorCallExpression) logicalExpression);
         }
 
         if(logicalExpression instanceof MgUnresolvedGroupCallExpression){
-            return new MgResolveGroupExpressionTask(context, (MgUnresolvedGroupCallExpression) logicalExpression, parent);
+            return new MgResolveGroupExpressionTask(context, (MgUnresolvedGroupCallExpression) logicalExpression);
         }
 
         if(logicalExpression instanceof MgUnresolvedMemberNameCallExpression){
-            return MgResolveInstanceNameExpressionTask.create(context, (MgUnresolvedMemberNameCallExpression) logicalExpression, parent);
+            return MgResolveInstanceNameExpressionTask.create(context, (MgUnresolvedMemberNameCallExpression) logicalExpression);
         }
 
         throw new LanguageException("Unexpected expression " + logicalExpression.getClass().getSimpleName() + " for resolve.");

@@ -6,7 +6,6 @@ import cz.mg.compiler.annotations.Output;
 import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedRunaryOperatorCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.operator.MgRunaryOperatorExpression;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 
@@ -19,10 +18,9 @@ public class MgResolveRunaryOperatorExpressionTask extends MgResolveUnaryOperato
 
     public MgResolveRunaryOperatorExpressionTask(
         CommandContext context,
-        MgUnresolvedRunaryOperatorCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedRunaryOperatorCallExpression logicalExpression
     ) {
-        super(context, parent);
+        super(context);
         this.logicalExpression = logicalExpression;
     }
 

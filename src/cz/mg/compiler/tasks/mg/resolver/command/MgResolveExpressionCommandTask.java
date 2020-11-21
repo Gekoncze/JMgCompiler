@@ -4,7 +4,6 @@ import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTask;
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTreeTask;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedExpressionCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgExpressionCommand;
@@ -37,8 +36,7 @@ public class MgResolveExpressionCommandTask extends MgResolveCommandTask {
 
         MgResolveExpressionTask resolveExpressionTask = MgResolveExpressionTask.create(
             context,
-            resolveExpressionTreeTask.getLogicalCallExpression(),
-            new ExpectedParentInput()
+            resolveExpressionTreeTask.getLogicalCallExpression()
         );
         resolveExpressionTask.run();
         command = new MgExpressionCommand(resolveExpressionTask.getExpression());

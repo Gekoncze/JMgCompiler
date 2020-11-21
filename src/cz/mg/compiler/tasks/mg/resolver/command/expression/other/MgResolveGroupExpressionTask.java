@@ -5,7 +5,6 @@ import cz.mg.compiler.annotations.Input;
 import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedGroupCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTask;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 
@@ -15,10 +14,9 @@ public class MgResolveGroupExpressionTask extends MgResolveExpressionTask {
 
     public MgResolveGroupExpressionTask(
         CommandContext context,
-        MgUnresolvedGroupCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedGroupCallExpression logicalExpression
     ) {
-        super(context, parent);
+        super(context);
         this.logicalExpression = logicalExpression;
     }
 

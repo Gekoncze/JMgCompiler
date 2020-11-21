@@ -4,7 +4,6 @@ import cz.mg.compiler.Todo;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedNameCallExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTask;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 
@@ -14,10 +13,9 @@ public abstract class MgResolveNameExpressionTask extends MgResolveExpressionTas
 
     public MgResolveNameExpressionTask(
         CommandContext context,
-        MgUnresolvedNameCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedNameCallExpression logicalExpression
     ) {
-        super(context, parent);
+        super(context);
         this.logicalExpression = logicalExpression;
         new Todo();
     }
@@ -85,15 +83,14 @@ public abstract class MgResolveNameExpressionTask extends MgResolveExpressionTas
 
     public static MgResolveNameExpressionTask create(
         CommandContext context,
-        MgUnresolvedNameCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedNameCallExpression logicalExpression
     ){
         new Todo();
         return null;
 //        if(logicalExpression.getExpression() == null){
-//            return new MgResolveVariableExpressionTask(context, logicalExpression, parent);
+//            return new MgResolveVariableExpressionTask(context, logicalExpression);
 //        } else {
-//            return new MgResolveFunctionExpressionTask(context, logicalExpression, parent);
+//            return new MgResolveFunctionExpressionTask(context, logicalExpression);
 //        }
     }
 }

@@ -3,17 +3,15 @@ package cz.mg.compiler.tasks.mg.resolver.command.expression.name;
 import cz.mg.compiler.Todo;
 import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedNameCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 
 public class MgResolveVariableExpressionTask extends MgResolveNameExpressionTask {
     public MgResolveVariableExpressionTask(
         CommandContext context,
-        MgUnresolvedNameCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedNameCallExpression logicalExpression
     ) {
-        super(context, logicalExpression, parent);
+        super(context, logicalExpression);
     }
 
     @Override

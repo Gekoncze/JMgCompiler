@@ -6,7 +6,6 @@ import cz.mg.compiler.annotations.Output;
 import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedLunaryOperatorCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.operator.MgLunaryOperatorExpression;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 
@@ -19,10 +18,9 @@ public class MgResolveLunaryOperatorExpressionTask extends MgResolveUnaryOperato
 
     public MgResolveLunaryOperatorExpressionTask(
         CommandContext context,
-        MgUnresolvedLunaryOperatorCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedLunaryOperatorCallExpression logicalExpression
     ) {
-        super(context, parent);
+        super(context);
         this.logicalExpression = logicalExpression;
     }
 

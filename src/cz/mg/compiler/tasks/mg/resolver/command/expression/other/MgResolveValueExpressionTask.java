@@ -12,7 +12,6 @@ import cz.mg.language.entities.mg.runtime.instances.buildin.MgAtom;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgValueExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTask;
-import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 
@@ -25,10 +24,9 @@ public class MgResolveValueExpressionTask extends MgResolveExpressionTask {
 
     public MgResolveValueExpressionTask(
         CommandContext context,
-        MgUnresolvedValueCallExpression logicalExpression,
-        ExpectedParentInput parent
+        MgUnresolvedValueCallExpression logicalExpression
     ) {
-        super(context, parent);
+        super(context);
         this.logicalExpression = logicalExpression;
     }
 
