@@ -1,0 +1,65 @@
+basic logic of the compiler
+    [plain text] -> {parser} -> [plain text entities] -> {composer} -> [structured text entities] -> {builder} -> [logic] -> {resolver} -> [runtime]
+    [] entities - only holds data and some elementary entity local logic
+    {} tasks - all the tasks which somehow modify or create entities, they can also use helper
+    [plain text] is the source code
+    [plain text entities] are pages composed of lines and tokens
+    [structured text entities] are blocks composed of sub-blocks and parts
+    [logic] are data structures representing mg objects without references to other mg objects
+    [runtime] are the final mg data structures which are executable
+
+resolver:
+    variable:
+        [output]parent[input]{?}n ... <-connection-> 1[output]expression[input]
+
+    function:
+        [output]parent[input]{?}n ... <-connection-> n[output]expression[input]{?}n ... <-connections-> n[output]child[input]
+
+    expression resolver
+        onEnter:
+            resolve is optional (successful when there is exactly 1 match)
+
+            we are resolving expression, so we don't know its output and input yet
+            we might know parent input, so we can filter by that if not null
+            we don't know child output, so we cannot filter by that
+
+        resolve children and add children to expression.expressions
+            if expression is resolved, then we connect child to expression
+
+        onLeave:
+            resolve is mandatory (successful when there is exactly 1 match)
+            resolve is not run if already resolved
+
+            we are resolving expression, so we don't know its output and input yet
+            we might know parent input, so we can filter by that if not null
+            we know child output, so we can always filter by that
+
+        afterLeave:
+            we connect children to expression if needed
+
+    example expression:
+            d = c + foo().a(4).bar
+
+              =
+             / \
+            d   +
+               / \
+              c   .bar
+                 /
+                .a
+               /  \
+            foo    4
+
+            notice that brackets after foo might be redundant
+
+            (fooBar().x, y, z) = (c + foo().a(4).bar, 6)
+
+              =
+            /   \
+       [.x,y,z]  [ + , 6 ]
+       /          / \
+    fooBar       c   .bar
+                   /
+                  .a
+                 /  \
+              foo    4

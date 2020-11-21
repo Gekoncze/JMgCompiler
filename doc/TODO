@@ -1,0 +1,333 @@
+### DONE ### -----------------------------------------------------------------------------------------------------------
+
+
+
+### NOW ### ------------------------------------------------------------------------------------------------------------
+implement sources for all contexts
+    work in progress
+    global, type, instance and local
+    when doing search, we need to know where we can search and where we cannot
+        based on that we will choose proper source form the context
+
+fix all mg expression resolvers
+    <base>
+    group
+    value
+    operator
+        binary
+        unary
+            lunary
+            runary
+        value assignment
+        reference assignment
+    name
+        variable + instance
+        function + instance
+
+    Note: make sure they handle different kinds of variables and functions correctly based on annotations
+        variables
+            global variable
+            instance variable (annotated with @instance)
+                function variable
+                class variable
+            type variable (annotated with @type)
+
+        functions
+            global function
+            instance function (annotated with @instance)
+            type function (annotated with @type)
+
+check again if empty groups (for function calls) are allowed, I cant seem to find them again ...
+
+new implementation
+    add alias component
+    make contexts unwrap aliases during resolve
+
+    I think lets leave filtering by parent for now
+        it is already pretty complicated now and we are stuck at one place for a very long time
+
+    casts can be done using as operator
+        as operator could take text as left and type as right
+        usage alias can be implemented as creating new alias component
+
+    implement sources for all contexts
+        global, type, instance and local
+        when doing search, we need to know where we can search and where we cannot
+            based on that we will choose proper source form the context
+
+
+### SOON ### -----------------------------------------------------------------------------------------------------------
+add buildin operators
+    ... I think we might need special handling also for &== operator ... I'm dead
+
+    add + - * / &== $== < > <= >=
+        Int
+        Float
+        Text
+        Bool
+
+add buildin print function
+    for all buildin types as parameter
+
+add buildin create function ?
+    cuz we will need a way to construct class instances somehow
+
+test
+    try to actually compile and run some code!
+    test what expression like this will do:
+        (a * b)(c, d, e)
+        what error will be thrown?
+        this is something like a parametrized call, but without a name on the left
+
+    test all combinations of value and reference assignments, I'm pretty sure I might have missed something ...
+        variable datatype combinations:
+            reference &= reference  # ok
+            reference &= value  # ok
+            value &= reference  # not ok
+            value &= value  # not ok
+
+            reference $= reference  # ok
+            reference $= value  # ok
+            value $= reference  # ok
+            value $= value  # ok
+
+        I think not all of them are supported yet, as we do not support automatic conversions
+            of references to values and values to references
+            this might need to be investigated further and then implemented
+            either this might or might not create additional expressions
+            or we might actually ignore the check for storage direct and indirect in matcher
+
+take into account access modifiers during resolve
+
+think if we can simplify mg expressions somehow
+    maybe split it into executable and non-executable classes?
+    or extract the executable part into an inner class?
+    I really dont know ...
+
+explicit casting
+    add buildin as operators
+    add option for user to provide his own as operators
+    there should be two weights for casting
+        as operator should add more weight when matching 100% I think
+
+mg builder - global variable object
+    basically add support for expressions inside logical variables
+    as for logical variable and its expression
+        we might want support for all variables, not only global!
+        both problematics are closely connected
+
+add support for mg @type variables and functions
+    make mg class implement class instance
+
+think about new object creation
+    there would be probably some default allocator
+    and/or default factory, which would automatically call function
+        with stamps like @create @destroy
+
+complete support for collections
+    for resolve, MgParameter needs to be a type/component (see to do in CollectionContext)
+    they should definitely be distinguished as readable, writeable, readonly, nonnull somehow
+
+    collection polymorphism problem
+        ReadableList<Child> can be passed as ReadableList<Parent>
+        WriteableList<Child> cannot be passed as WritableList<Parent> !!!
+
+high-level architecture
+    modules or bundles or libraries or packages ...
+        we could take a look at locations as folders/directories in os
+        packages would be like installer packages in os
+        components would be like files in os
+    how would this be solved on both logical and runtime level?
+
+mg stamps definitions
+    additional information for the compiler or during runtime
+    when used, the "instances" cannot hold any values, those will be just references to the definition
+    can be mandatory or optional ? or maybe it could be called critical or something like that
+        for mandatory stamps, the compiler has to throw an error if it cannot handle them
+            I dont actually know how much the compiler should be handling those...
+                maybe its not a good idea, investigate
+
+
+
+
+### LATER ### ----------------------------------------------------------------------------------------------------------
+add support for multiple inheritance
+add support for variable and function overriding
+add support for variable number of parameters of functions
+
+allow = operator
+    reference or value assignment can be automatically determined
+        for example by variable type
+            if left and right variable is reference, then it will be reference assignment
+            if left and right variable is value, then it will be value assignment
+            if left variable is value, then it can only be value assignment
+    this can be useful especially for replication
+
+add context for function execution
+    it might work this way:
+        there will be places in code where we would enter/leave context
+            on enter, we will add context to current thread
+            on leave, we will remove context from current thread
+            no need for dependency injection :)
+
+calling of super method
+    if class FooBar extends Bar and overrides its print function
+    instead of fooBar.print
+    we could call Foo.print: fooBar
+
+mg global variable - add runtime validation for type?
+mg member variable - add runtime validation for type?
+mg function pointers - will be called interfaces
+    I am actually also thinking if calling function like foo.bar should be allowed
+    if there should be something like foo.bar!
+    and chains being supported as usual, so foo.bar!.foobar
+    but then again !. would be considered as a single operator which might complicate stuff
+    so wither ! would need to be separated, or not use it and have empty brackets as usual ()
+    this would also solve the ambiguous function pointer call (as execution or as storage)
+
+improve compiler exceptions
+    add external (user) exception vs internal exception
+    add more exception types
+    add some kind of tracing
+        how to trace origin for error messages?
+            1) might use optional setter, that shall be set for all newly created objects
+                origin would be taken from one of the input objects
+            2) shouldnt a stack trace be enough? implying we have a tree of entities
+
+make platform independent threads
+    this will require:
+        more effort from my side
+        generating instructions for functions from its commands and expressions
+        add MgThread and MgCore objects
+    this will allow:
+        more flexibility
+        any number of threads in application
+        easier manipulation (thread can be started, paused, stopped, etc)
+        better memory management (not so much on stack, more on heap)
+    not sure:
+        if better or worse performance
+
+    make MgCore work
+
+    think of possible scheduler
+        schedulers can schedule:
+            for each core a bunch of threads
+            a bunch of threads for bunch of cores
+            ... the question there is, if scheduler should be inside of core or application ?
+
+contextual methods as syntactical sugar
+    normal global methods, but
+    there would be a syntactical sugar, which would add them as a pseudo-member methods
+    maybe we should find a better name for it to not collide with thread contexts
+
+
+### MAYBE LATER ### ----------------------------------------------------------------------------------------------------
+add support for relative ".." and "." usages ???
+
+write mg to c converter
+    decide if to convert from logical or runtime entities
+
+    c entities
+        add global variable element (dont forget modifiers)
+        add thread local modifier
+        add extern modifier
+        add (c language specific) static modifier
+        differentiate c number and text and character literals ???
+
+        bad design detected
+            lines should own tokens as a part
+            but actually, with static final variables, they cant own them, they just reference them
+            the right thing to do is to always create a new token instance!
+
+    c writer
+        optimize operator writer tasks to not always include brackets
+
+mg logic or runtime entity versioning ?
+
+change static create implementations
+    make it so the classes registers themselves in a static block
+
+allow static access to instance functions using special usages
+    USING INSTANCE FUNCTION cz.mg.Foo.bar
+    USING TYPE FUNCTION cz.mg.Foo.bar
+
+additional validations
+    add some configurable limits to better sanitize input
+        limit file size
+        limit line size
+
+    add entity validations
+
+optimizations
+    during resolution, some local variables created by expressions can be reused
+    add optmized version of variable helper
+
+mg language - required vs optional input and output variables for functions
+    can be implemented as syntactical sugar
+
+move all subtasks to Task class ???
+
+(global) function and variable overriding
+    VARIABLE Int32 foo
+    vs
+    OVERRIDE foo VARIABLE Int32 bar
+    vs
+    VARIABLE Int32 bar OVERRIDE foo
+    -
+    FUNCTION foo INPUT ... OUTPUT ...
+    vs
+    OVERRIDE foo FUNCTION bar INPUT ... OUTPUT ...
+    vs
+    FUNCTION bar INPUT ... OUTPUT ... OVERRIDE foo
+
+
+### IDEAS ### ----------------------------------------------------------------------------------------------------------
+mg roles (like java interfaces)
+    I think this can be already fully covered by multiple inheritance
+
+add support for builder like syntax using double dot ..
+
+add support for parents inside objects
+    should be part of an interface so it can be more dynamic for buildin types etc.
+    prevent creating cycles (needs to be checked at runtime)
+        could be theoretically at compile time, but would restrict types too much
+            (which migh have both good and bad sides)
+
+make mg class be able to limit what type can own it
+
+usings could automatically add some prefix or suffix to prevent ambiguous usages more easily
+    these could be defined in some special locations called areas maybe?
+
+add support for conditional member access
+    expression will be skipped if lvalue is null
+    this might be tricky though, cuz it could appear inside more complicated expression
+
+literals
+    idea - there can be two types:
+        '' - converted at startup when code is loaded
+        "" - converted at runtime during expression execution
+
+    alternative idea - again two types, but different meaning:
+        '' - convertible literal
+        "" - plain text literal
+
+very interesting idea
+    contextual methods
+        entities can have different methods based on current context
+            ie CStructure in c to java converter context will have different methods than in c to php converter context
+    these can also support overriding
+    in each file, we might need to specify context, or specify it in some other way?
+    this might also be accomplished by special "inheritance"
+        mg will have more types of inheritance: IS <-, LIKE >-<, AS <->, VIEW ->
+
+    find out how to mimic contextual methods in java?
+        maybe we are overreacting now, lets make one simple implementation for our case
+        and then we can take care of the remaining scenarios!
+        keep this java implementation as simple as possible!
+
+        also, think about difference between dependency injection and contextual methods
+
+aliases for modules in application - ie remapping module locations
+    this step would probably take in place after the module itself and its dependencies are resolved
+
+if ternary operator ?

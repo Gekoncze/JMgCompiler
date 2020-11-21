@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="JMgLanguage">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../JMgLanguage/out/artifacts/JMgLanguage_jar/JMgLanguage.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
