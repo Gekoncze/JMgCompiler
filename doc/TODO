@@ -3,6 +3,31 @@
 
 
 ### NOW ### ------------------------------------------------------------------------------------------------------------
+new implementation
+    add alias component
+    make contexts unwrap aliases during resolve
+
+    I think lets leave filtering by parent for now
+        it is already pretty complicated now and we are stuck at one place for a very long time
+
+    casts can be done using as operator
+        as operator could take text as left and type as right
+        usage alias can be implemented as creating new alias component
+
+    implement sources for all contexts
+        global, type, instance and local
+        when doing search, we need to know where we can search and where we cannot
+            based on that we will choose proper source form the context
+
+    I think we can do the slow implementation first, as it is much easier
+        also, add new actual runtime entities - extract those from the resolved ones
+
+    add workspaces
+        workspace is a group of usages for re-use
+        workspace can include another workspace
+
+
+### SOON ### -----------------------------------------------------------------------------------------------------------
 implement sources for all contexts
     work in progress
     global, type, instance and local
@@ -39,24 +64,6 @@ fix all mg expression resolvers
 
 check again if empty groups (for function calls) are allowed, I cant seem to find them again ...
 
-new implementation
-    add alias component
-    make contexts unwrap aliases during resolve
-
-    I think lets leave filtering by parent for now
-        it is already pretty complicated now and we are stuck at one place for a very long time
-
-    casts can be done using as operator
-        as operator could take text as left and type as right
-        usage alias can be implemented as creating new alias component
-
-    implement sources for all contexts
-        global, type, instance and local
-        when doing search, we need to know where we can search and where we cannot
-            based on that we will choose proper source form the context
-
-
-### SOON ### -----------------------------------------------------------------------------------------------------------
 add buildin operators
     ... I think we might need special handling also for &== operator ... I'm dead
 
@@ -331,3 +338,6 @@ aliases for modules in application - ie remapping module locations
     this step would probably take in place after the module itself and its dependencies are resolved
 
 if ternary operator ?
+
+alias for something which might extend two types
+    this implies multiple inheritance is used
