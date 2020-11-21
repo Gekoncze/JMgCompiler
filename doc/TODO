@@ -1,8 +1,13 @@
 ### DONE ### -----------------------------------------------------------------------------------------------------------
-
+added support for relative usages
 
 
 ### NOW ### ------------------------------------------------------------------------------------------------------------
+to do
+    workspaces - implement in resolvers
+    aliases - implement in resolvers
+    relative usage paths - implement in resolvers
+
 new implementation
     add alias component
     make contexts unwrap aliases during resolve
@@ -229,8 +234,6 @@ contextual methods as syntactical sugar
 
 
 ### MAYBE LATER ### ----------------------------------------------------------------------------------------------------
-add support for relative ".." and "." usages ???
-
 write mg to c converter
     decide if to convert from logical or runtime entities
 

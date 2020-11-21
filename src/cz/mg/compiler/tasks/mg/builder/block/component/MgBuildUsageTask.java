@@ -4,24 +4,19 @@ import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
-import cz.mg.compiler.tasks.mg.builder.part.chain.path.MgBuildNamePathTask;
-import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
-import cz.mg.compiler.tasks.mg.builder.pattern.Count;
-import cz.mg.compiler.tasks.mg.builder.pattern.Order;
-import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
-import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
-import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
-import cz.mg.language.entities.mg.unresolved.parts.MgUnresolvedUsage;
-import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
 import cz.mg.compiler.tasks.mg.builder.block.part.MgBuildNameBlockTask;
+import cz.mg.compiler.tasks.mg.builder.part.MgBuildUsagePathTask;
+import cz.mg.compiler.tasks.mg.builder.pattern.*;
+import cz.mg.language.entities.mg.unresolved.parts.MgUnresolvedUsage;
+import cz.mg.language.entities.text.structured.Block;
 
 
 public class MgBuildUsageTask extends MgBuildBlockTask {
     private static final PartProcessor PROCESSOR = new PartProcessor<>(
-        MgBuildNamePathTask.class,
+        MgBuildUsagePathTask.class,
         MgBuildUsageTask.class,
-        (source, destination) -> destination.usage = new MgUnresolvedUsage(destination.filter, source.getNames())
+        (source, destination) -> destination.usage = new MgUnresolvedUsage(destination.filter, source.getPath())
     );
 
     private static final List<Pattern> PATTERNS = new List<>(
