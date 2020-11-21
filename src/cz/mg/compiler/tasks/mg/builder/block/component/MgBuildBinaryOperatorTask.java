@@ -1,28 +1,28 @@
-package cz.mg.compiler.tasks.mg.builder.block.root;
+package cz.mg.compiler.tasks.mg.builder.block.component;
 
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedLunaryOperator;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedBinaryOperator;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildOperatorNameTask;
 import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
 
 
-public class MgBuildLunaryOperatorTask extends MgBuildOperatorTask {
+public class MgBuildBinaryOperatorTask extends MgBuildOperatorTask {
     private static final PartProcessor PROCESSOR = new PartProcessor<>(
         MgBuildOperatorNameTask.class,
-        MgBuildLunaryOperatorTask.class,
-        (source, destination) -> destination.operator = new MgUnresolvedLunaryOperator(source.getName())
+        MgBuildBinaryOperatorTask.class,
+        (source, destination) -> destination.operator = new MgUnresolvedBinaryOperator(source.getName())
     );
 
     @Output
-    private MgUnresolvedLunaryOperator operator;
+    private MgUnresolvedBinaryOperator operator;
 
-    public MgBuildLunaryOperatorTask(Block block) {
+    public MgBuildBinaryOperatorTask(Block block) {
         super(block);
     }
 
     @Override
-    public MgUnresolvedLunaryOperator getOperator() {
+    public MgUnresolvedBinaryOperator getOperator() {
         return operator;
     }
 

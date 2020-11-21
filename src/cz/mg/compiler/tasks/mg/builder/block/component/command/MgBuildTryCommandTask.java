@@ -1,24 +1,24 @@
-package cz.mg.compiler.tasks.mg.builder.block.root.command;
+package cz.mg.compiler.tasks.mg.builder.block.component.command;
 
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.language.LanguageException;
 import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedBlockCommand;
-import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedFinallyCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedTryCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
 
 
-public class MgBuildFinallyCommandTask extends MgBuildBlockCommandTask {
+public class MgBuildTryCommandTask extends MgBuildBlockCommandTask {
     @Output
-    private MgUnresolvedFinallyCommand command;
+    private MgUnresolvedTryCommand command;
 
-    public MgBuildFinallyCommandTask(Block block) {
+    public MgBuildTryCommandTask(Block block) {
         super(block);
     }
 
-    public MgUnresolvedFinallyCommand getCommand() {
+    public MgUnresolvedTryCommand getCommand() {
         return command;
     }
 
@@ -37,7 +37,7 @@ public class MgBuildFinallyCommandTask extends MgBuildBlockCommandTask {
         if(!parts.isEmpty()){
             throw new LanguageException("Unexpected part(s).");
         } else {
-            command = new MgUnresolvedFinallyCommand();
+            command = new MgUnresolvedTryCommand();
         }
     }
 }

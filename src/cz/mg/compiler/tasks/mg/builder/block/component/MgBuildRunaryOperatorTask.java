@@ -1,4 +1,4 @@
-package cz.mg.compiler.tasks.mg.builder.block.root;
+package cz.mg.compiler.tasks.mg.builder.block.component;
 
 import cz.mg.compiler.annotations.Output;
 import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedRunaryOperator;

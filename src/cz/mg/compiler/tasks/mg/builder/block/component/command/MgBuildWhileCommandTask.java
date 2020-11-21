@@ -1,4 +1,4 @@
-package cz.mg.compiler.tasks.mg.builder.block.root.command;
+package cz.mg.compiler.tasks.mg.builder.block.component.command;
 
 import cz.mg.compiler.annotations.Output;
 import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedBlockCommand;

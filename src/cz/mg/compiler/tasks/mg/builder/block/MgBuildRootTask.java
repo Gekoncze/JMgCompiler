@@ -4,12 +4,7 @@ import cz.mg.collections.ReadableCollection;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Cache;
 import cz.mg.compiler.annotations.Output;
-import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildBinaryOperatorTask;
-import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildClassTask;
-import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildFunctionTask;
-import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildLunaryOperatorTask;
-import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildRunaryOperatorTask;
-import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask;
+import cz.mg.compiler.tasks.mg.builder.block.component.*;
 import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
 import cz.mg.compiler.tasks.mg.builder.pattern.Count;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
@@ -92,6 +87,19 @@ public class MgBuildRootTask extends MgBuildBlockTask {
             "USING", "VARIABLE"
         ),
 
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
+                MgBuildUsageTask.class,
+                MgBuildRootTask.class,
+                (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
+                (block, destination) -> new MgBuildUsageTask(block, MgUnresolvedUsage.Filter.WORKSPACE)
+            ),
+            "USING", "WORKSPACE"
+        ),
+
         // build class
         new Pattern(
             Order.RANDOM,
@@ -155,6 +163,30 @@ public class MgBuildRootTask extends MgBuildBlockTask {
                 (source, destination) -> destination.setComponent(source.getOperator())
             ),
             "RUNARY", "OPERATOR"
+        ),
+
+        // build alias
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
+                MgBuildAliasTask.class,
+                MgBuildRootTask.class,
+                (source, destination) -> destination.setComponent(source.getAlias())
+            )
+        ),
+
+        // build workspace
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
+                MgBuildWorkspaceTask.class,
+                MgBuildRootTask.class,
+                (source, destination) -> destination.setComponent(source.getWorkspace())
+            )
         )
     );
 

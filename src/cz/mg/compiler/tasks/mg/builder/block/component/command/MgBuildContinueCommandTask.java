@@ -1,4 +1,4 @@
-package cz.mg.compiler.tasks.mg.builder.block.root.command;
+package cz.mg.compiler.tasks.mg.builder.block.component.command;
 
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;

@@ -1,4 +1,4 @@
-package cz.mg.compiler.tasks.mg.builder.block.root.command;
+package cz.mg.compiler.tasks.mg.builder.block.component.command;
 
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
@@ -10,48 +10,61 @@ import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
 import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
 import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedSwitchCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCheckpointCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 
 
-public class MgBuildSwitchCommandTask extends MgBuildCommandTask {
+public class MgBuildCheckpointCommandTask extends MgBuildCommandTask {
     private static final List<Pattern> PATTERNS = new List<>(
-        // build case command
+        // build try command
+        new Pattern(
+            Order.STRICT,
+            Requirement.MANDATORY,
+            Count.SINGLE,
+            new BlockProcessor<>(
+                MgBuildTryCommandTask.class,
+                MgBuildCheckpointCommandTask.class,
+                (source, destination) -> destination.command.setTryCommand(source.getCommand())
+            ),
+            "TRY"
+        ),
+
+        // build catch command
         new Pattern(
             Order.STRICT,
             Requirement.OPTIONAL,
             Count.MULTIPLE,
             new BlockProcessor<>(
-                MgBuildCaseCommandTask.class,
-                MgBuildSwitchCommandTask.class,
-                (source, destination) -> destination.command.getCommands().addLast(source.getCommand())
+                MgBuildCatchCommandTask.class,
+                MgBuildCheckpointCommandTask.class,
+                (source, destination) -> destination.command.getCatchCommands().addLast(source.getCommand())
             ),
-            "CASE"
+            "CATCH"
         ),
 
-        // build else command
+        // build finally command
         new Pattern(
             Order.STRICT,
             Requirement.OPTIONAL,
             Count.SINGLE,
             new BlockProcessor<>(
-                MgBuildElseCommandTask.class,
-                MgBuildSwitchCommandTask.class,
-                (source, destination) -> destination.command.getCommands().addLast(source.getCommand())
+                MgBuildFinallyCommandTask.class,
+                MgBuildCheckpointCommandTask.class,
+                (source, destination) -> destination.command.setFinallyCommand(source.getCommand())
             ),
-            "ELSE"
+            "FINALLY"
         )
     );
 
     @Output
-    private MgUnresolvedSwitchCommand command;
+    private MgUnresolvedCheckpointCommand command;
 
-    public MgBuildSwitchCommandTask(Block block) {
+    public MgBuildCheckpointCommandTask(Block block) {
         super(block);
     }
 
-    public MgUnresolvedSwitchCommand getCommand() {
+    public MgUnresolvedCheckpointCommand getCommand() {
         return command;
     }
 
@@ -75,7 +88,7 @@ public class MgBuildSwitchCommandTask extends MgBuildCommandTask {
         if(!parts.isEmpty()){
             throw new LanguageException("Unexpected part(s).");
         } else {
-            command = new MgUnresolvedSwitchCommand();
+            command = new MgUnresolvedCheckpointCommand();
         }
     }
 }
