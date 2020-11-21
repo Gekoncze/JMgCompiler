@@ -3,7 +3,7 @@ package cz.mg.compiler.tasks.mg.resolver.command.expression.operator;
 import cz.mg.compiler.Todo;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.operator.MgLogicalRunaryOperatorCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedRunaryOperatorCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.operator.MgRunaryOperatorExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
@@ -12,14 +12,14 @@ import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 public class MgResolveRunaryOperatorExpressionTask extends MgResolveUnaryOperatorExpressionTask {
     @Input
-    private final MgLogicalRunaryOperatorCallExpression logicalExpression;
+    private final MgUnresolvedRunaryOperatorCallExpression logicalExpression;
 
     @Output
     private MgRunaryOperatorExpression expression;
 
     public MgResolveRunaryOperatorExpressionTask(
         CommandContext context,
-        MgLogicalRunaryOperatorCallExpression logicalExpression,
+        MgUnresolvedRunaryOperatorCallExpression logicalExpression,
         ExpectedParentInput parent
     ) {
         super(context, parent);

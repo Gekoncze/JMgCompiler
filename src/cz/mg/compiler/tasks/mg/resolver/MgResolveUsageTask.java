@@ -9,7 +9,7 @@ import cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage;
 import cz.mg.compiler.tasks.mg.resolver.context.Context;
 import cz.mg.compiler.tasks.mg.resolver.context.architecture.ApplicationContext;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.MgLogicalUsage;
+import cz.mg.language.entities.mg.unresolved.parts.MgUnresolvedUsage;
 import cz.mg.language.entities.mg.runtime.components.MgComponent;
 import cz.mg.language.entities.mg.runtime.components.MgLocation;
 import cz.mg.language.entities.mg.runtime.components.stamps.MgStamp;
@@ -23,12 +23,12 @@ import cz.mg.language.entities.mg.runtime.components.variables.MgVariable;
 
 public class MgResolveUsageTask extends MgPostponeResolveTask {
     @Input
-    private final MgLogicalUsage logicalUsage;
+    private final MgUnresolvedUsage logicalUsage;
 
     @Output
     private List<cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage> usages;
 
-    public MgResolveUsageTask(cz.mg.compiler.tasks.mg.resolver.context.Context context, MgLogicalUsage logicalUsage) {
+    public MgResolveUsageTask(cz.mg.compiler.tasks.mg.resolver.context.Context context, MgUnresolvedUsage logicalUsage) {
         super(context);
         this.logicalUsage = logicalUsage;
     }
@@ -79,7 +79,7 @@ public class MgResolveUsageTask extends MgPostponeResolveTask {
 
     private void addUsage(MgComponent component){
         if(accept(component)){
-            if(logicalUsage.getFilter() == MgLogicalUsage.Filter.OPERATOR){
+            if(logicalUsage.getFilter() == MgUnresolvedUsage.Filter.OPERATOR){
                 if(logicalUsage.getAlias() == null){
                     usages.addLast(new cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage(component, component.getName()));
                 } else {

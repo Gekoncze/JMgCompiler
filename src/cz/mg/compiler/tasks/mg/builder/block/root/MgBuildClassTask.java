@@ -5,7 +5,7 @@ import cz.mg.collections.ReadableCollection;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
-import cz.mg.language.entities.mg.logical.components.MgLogicalClass;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedClass;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
 import cz.mg.compiler.tasks.mg.builder.block.part.MgBuildDeclarationBlockTask;
@@ -17,7 +17,7 @@ public class MgBuildClassTask extends MgBuildBlockTask {
     private static final cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor PROCESSOR = new cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor<>(
         MgBuildNameTask.class,
         MgBuildClassTask.class,
-        (source, destination) -> destination.clazz = new MgLogicalClass(source.getName())
+        (source, destination) -> destination.clazz = new MgUnresolvedClass(source.getName())
     );
 
     private static final ReadableCollection<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
@@ -100,13 +100,13 @@ public class MgBuildClassTask extends MgBuildBlockTask {
     );
 
     @Output
-    private MgLogicalClass clazz;
+    private MgUnresolvedClass clazz;
 
     public MgBuildClassTask(Block block) {
         super(block);
     }
 
-    public MgLogicalClass getClazz() {
+    public MgUnresolvedClass getClazz() {
         return clazz;
     }
 

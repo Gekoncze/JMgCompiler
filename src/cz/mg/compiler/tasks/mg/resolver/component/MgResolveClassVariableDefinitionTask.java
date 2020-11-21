@@ -4,7 +4,7 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.component.VariableContext;
-import cz.mg.language.entities.mg.logical.components.MgLogicalVariable;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedVariable;
 import cz.mg.language.entities.mg.runtime.components.stamps.MgStamp;
 import cz.mg.language.entities.mg.runtime.components.types.classes.MgClass;
 import cz.mg.language.entities.mg.runtime.components.variables.MgGlobalVariable;
@@ -19,12 +19,12 @@ public class MgResolveClassVariableDefinitionTask extends MgResolveVariableDefin
     private final MgClass clazz;
 
     @Input
-    private final MgLogicalVariable logicalVariable;
+    private final MgUnresolvedVariable logicalVariable;
 
     @Output
     private MgVariable variable;
 
-    public MgResolveClassVariableDefinitionTask(Context context, MgClass clazz, MgLogicalVariable logicalVariable) {
+    public MgResolveClassVariableDefinitionTask(Context context, MgClass clazz, MgUnresolvedVariable logicalVariable) {
         super(new VariableContext(context), logicalVariable);
         this.clazz = clazz;
         this.logicalVariable = logicalVariable;

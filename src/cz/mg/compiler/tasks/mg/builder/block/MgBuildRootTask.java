@@ -7,9 +7,9 @@ import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildRunaryOperatorTask;
 import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.components.MgLogicalComponent;
-import cz.mg.language.entities.mg.logical.parts.MgLogicalContext;
-import cz.mg.language.entities.mg.logical.parts.MgLogicalUsage;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedComponent;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedWorkspace;
+import cz.mg.language.entities.mg.unresolved.parts.MgUnresolvedUsage;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 
@@ -24,8 +24,8 @@ public class MgBuildRootTask extends MgBuildBlockTask {
             new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
                 cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
                 MgBuildRootTask.class,
-                (source, destination) -> destination.context.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgLogicalUsage.Filter.ALL)
+                (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
+                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.ALL)
             ),
             "USING"
         ),
@@ -37,8 +37,8 @@ public class MgBuildRootTask extends MgBuildBlockTask {
             new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
                 cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
                 MgBuildRootTask.class,
-                (source, destination) -> destination.context.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgLogicalUsage.Filter.CLASS)
+                (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
+                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.CLASS)
             ),
             "USING", "CLASS"
         ),
@@ -50,8 +50,8 @@ public class MgBuildRootTask extends MgBuildBlockTask {
             new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
                 cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
                 MgBuildRootTask.class,
-                (source, destination) -> destination.context.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgLogicalUsage.Filter.FUNCTION)
+                (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
+                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.FUNCTION)
             ),
             "USING", "FUNCTION"
         ),
@@ -63,8 +63,8 @@ public class MgBuildRootTask extends MgBuildBlockTask {
             new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
                 cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
                 MgBuildRootTask.class,
-                (source, destination) -> destination.context.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgLogicalUsage.Filter.OPERATOR)
+                (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
+                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.OPERATOR)
             ),
             "USING", "OPERATOR"
         ),
@@ -76,8 +76,8 @@ public class MgBuildRootTask extends MgBuildBlockTask {
             new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
                 cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
                 MgBuildRootTask.class,
-                (source, destination) -> destination.context.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgLogicalUsage.Filter.VARIABLE)
+                (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
+                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.VARIABLE)
             ),
             "USING", "VARIABLE"
         ),
@@ -149,10 +149,10 @@ public class MgBuildRootTask extends MgBuildBlockTask {
     );
 
     @Output
-    private MgLogicalComponent component;
+    private MgUnresolvedComponent component;
 
     @Cache
-    private MgLogicalContext context;
+    private MgUnresolvedWorkspace workspace;
 
     public MgBuildRootTask(Block block) {
         super(block);
@@ -160,17 +160,17 @@ public class MgBuildRootTask extends MgBuildBlockTask {
 
     @Override
     protected void onRun() {
-        context = new MgLogicalContext();
+        workspace = new MgUnresolvedWorkspace();
         super.onRun();
         if(component == null) throw new LanguageException("Missing component.");
-        component.setContext(context);
+        component.setWorkspace(workspace);
     }
 
-    public MgLogicalComponent getComponent() {
+    public MgUnresolvedComponent getComponent() {
         return component;
     }
 
-    private void setComponent(MgLogicalComponent component) {
+    private void setComponent(MgUnresolvedComponent component) {
         if(this.component != null) throw new LanguageException("Expected only one component at root level.");
         this.component = component;
     }

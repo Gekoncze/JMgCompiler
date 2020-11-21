@@ -5,7 +5,7 @@ import cz.mg.compiler.Todo;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.MgLogicalValueCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedValueCallExpression;
 import cz.mg.language.entities.mg.runtime.components.types.MgType;
 import cz.mg.language.entities.mg.runtime.components.types.buildin.MgAtomType;
 import cz.mg.language.entities.mg.runtime.instances.buildin.MgAtom;
@@ -18,14 +18,14 @@ import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 public class MgResolveValueExpressionTask extends MgResolveExpressionTask {
     @Input
-    private final MgLogicalValueCallExpression logicalExpression;
+    private final MgUnresolvedValueCallExpression logicalExpression;
 
     @Output
     private MgValueExpression expression;
 
     public MgResolveValueExpressionTask(
         CommandContext context,
-        MgLogicalValueCallExpression logicalExpression,
+        MgUnresolvedValueCallExpression logicalExpression,
         ExpectedParentInput parent
     ) {
         super(context, parent);

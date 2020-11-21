@@ -3,7 +3,7 @@ package cz.mg.compiler.tasks.mg.resolver.command.expression.operator.assignment;
 import cz.mg.compiler.Todo;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.operator.MgLogicalBinaryOperatorCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedBinaryOperatorCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgReferenceAssignmentExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
@@ -12,14 +12,14 @@ import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 public class MgResolveReferenceAssignmentExpressionTask extends MgResolveAssignmentExpressionTask {
     @Input
-    private final MgLogicalBinaryOperatorCallExpression logicalExpression;
+    private final MgUnresolvedBinaryOperatorCallExpression logicalExpression;
 
     @Output
     private MgReferenceAssignmentExpression expression;
 
     public MgResolveReferenceAssignmentExpressionTask(
         CommandContext context,
-        MgLogicalBinaryOperatorCallExpression logicalExpression,
+        MgUnresolvedBinaryOperatorCallExpression logicalExpression,
         ExpectedParentInput parent
     ) {
         super(context, logicalExpression, parent);

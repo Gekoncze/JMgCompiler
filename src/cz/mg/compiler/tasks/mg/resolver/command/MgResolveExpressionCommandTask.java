@@ -6,7 +6,7 @@ import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTa
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTreeTask;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalExpressionCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedExpressionCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgExpressionCommand;
 
 
@@ -15,12 +15,12 @@ public class MgResolveExpressionCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalExpressionCommand logicalCommand;
+    private final MgUnresolvedExpressionCommand logicalCommand;
 
     @Output
     private MgExpressionCommand command;
 
-    public MgResolveExpressionCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgLogicalExpressionCommand logicalCommand) {
+    public MgResolveExpressionCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgUnresolvedExpressionCommand logicalCommand) {
         this.context = new CommandContext(context);
         this.logicalCommand = logicalCommand;
     }

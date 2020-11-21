@@ -6,7 +6,7 @@ import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.Context;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalBreakCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedBreakCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.Breakable;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgBreakCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgCommand;
@@ -17,12 +17,12 @@ public class MgResolveBreakCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalBreakCommand logicalCommand;
+    private final MgUnresolvedBreakCommand logicalCommand;
 
     @Output
     private MgBreakCommand command;
 
-    public MgResolveBreakCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgLogicalBreakCommand logicalCommand) {
+    public MgResolveBreakCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgUnresolvedBreakCommand logicalCommand) {
         this.context = new cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext(context);
         this.logicalCommand = logicalCommand;
     }

@@ -9,18 +9,18 @@ import cz.mg.compiler.tasks.mg.resolver.context.architecture.ApplicationContext;
 import cz.mg.compiler.tasks.mg.resolver.link.MgResolveBaseClassesTask;
 import cz.mg.compiler.tasks.mg.resolver.link.MgResolveComponentStampTask;
 import cz.mg.compiler.tasks.mg.resolver.link.MgResolveVariableDatatypeTask;
-import cz.mg.language.entities.mg.logical.architecture.MgLogicalApplication;
+import cz.mg.language.entities.mg.unresolved.architecture.MgUnresolvedApplication;
 import cz.mg.language.entities.mg.runtime.architecture.MgApplication;
 
 
 public class MgResolveApplicationTask extends MgPostponeResolveTask {
     @Input
-    private final MgLogicalApplication logicalApplication;
+    private final MgUnresolvedApplication logicalApplication;
 
     @Output
     private MgApplication application;
 
-    public MgResolveApplicationTask(Context context, MgLogicalApplication logicalApplication) {
+    public MgResolveApplicationTask(Context context, MgUnresolvedApplication logicalApplication) {
         super(new cz.mg.compiler.tasks.mg.resolver.context.architecture.ApplicationContext(context));
         this.logicalApplication = logicalApplication;
     }

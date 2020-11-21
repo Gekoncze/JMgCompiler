@@ -4,7 +4,7 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.component.structured.CollectionContext;
-import cz.mg.language.entities.mg.logical.components.MgLogicalCollection;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedCollection;
 import cz.mg.language.entities.mg.runtime.components.stamps.MgStamp;
 import cz.mg.language.entities.mg.runtime.components.types.classes.MgCollection;
 import cz.mg.compiler.tasks.mg.resolver.context.Context;
@@ -12,12 +12,12 @@ import cz.mg.compiler.tasks.mg.resolver.context.Context;
 
 public class MgResolveCollectionDefinitionTask extends MgResolveComponentDefinitionTask {
     @Input
-    private final MgLogicalCollection logicalCollection;
+    private final MgUnresolvedCollection logicalCollection;
 
     @Output
     private MgCollection collection;
 
-    public MgResolveCollectionDefinitionTask(Context context, MgLogicalCollection logicalCollection) {
+    public MgResolveCollectionDefinitionTask(Context context, MgUnresolvedCollection logicalCollection) {
         super(new cz.mg.compiler.tasks.mg.resolver.context.component.structured.CollectionContext(context), logicalCollection);
         this.logicalCollection = logicalCollection;
     }

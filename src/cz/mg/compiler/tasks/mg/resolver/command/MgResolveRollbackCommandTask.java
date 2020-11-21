@@ -6,7 +6,7 @@ import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTa
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTreeTask;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalRollbackCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedRollbackCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgRollbackCommand;
 
 
@@ -15,12 +15,12 @@ public class MgResolveRollbackCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalRollbackCommand logicalCommand;
+    private final MgUnresolvedRollbackCommand logicalCommand;
 
     @Output
     private MgRollbackCommand command;
 
-    public MgResolveRollbackCommandTask(CommandContext context, MgLogicalRollbackCommand logicalCommand) {
+    public MgResolveRollbackCommandTask(CommandContext context, MgUnresolvedRollbackCommand logicalCommand) {
         this.context = context;
         this.logicalCommand = logicalCommand;
     }

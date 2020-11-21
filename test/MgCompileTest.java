@@ -7,8 +7,8 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.annotations.storage.Value;
-import cz.mg.language.entities.mg.logical.MgLogicalEntity;
-import cz.mg.language.entities.mg.logical.components.MgLogicalLocation;
+import cz.mg.language.entities.mg.unresolved.MgUnresolvedEntity;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedLocation;
 import cz.mg.compiler.tasks.mg.compiler.MgSimpleLogicCompilerTask;
 
 
@@ -20,13 +20,13 @@ class MgCompileTest {
         MgSimpleLogicCompilerTask simpleLogicCompilerTask = new MgSimpleLogicCompilerTask(path);
         simpleLogicCompilerTask.run();
 
-        MgLogicalLocation root = simpleLogicCompilerTask.getRoot();
+        MgUnresolvedLocation root = simpleLogicCompilerTask.getRoot();
         print(root, 0);
     }
 
     private static void print(Object object, int level) {
         printHeader(object, level);
-        if(object instanceof MgLogicalEntity) printFields(object, level + 1);
+        if(object instanceof MgUnresolvedEntity) printFields(object, level + 1);
     }
 
     private static void printHeader(Object object, int level){

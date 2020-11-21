@@ -2,7 +2,7 @@ package cz.mg.compiler.tasks.mg.builder.block.part;
 
 import cz.mg.collections.Clump;
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.logical.components.MgLogicalVariable;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedVariable;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildDeclarationTask;
@@ -18,13 +18,13 @@ public class MgBuildDeclarationBlockTask extends MgBuildBlockTask {
     );
 
     @Output
-    private MgLogicalVariable declaration;
+    private MgUnresolvedVariable declaration;
 
     public MgBuildDeclarationBlockTask(Block block) {
         super(block);
     }
 
-    public MgLogicalVariable getDeclaration() {
+    public MgUnresolvedVariable getDeclaration() {
         return declaration;
     }
 

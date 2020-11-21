@@ -2,8 +2,8 @@ package cz.mg.compiler.tasks.mg.builder.block.root.command;
 
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalReturnCommand;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalClumpExpression;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedReturnCommand;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedClumpExpression;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildExpressionPartTask;
@@ -14,17 +14,17 @@ public class MgBuildReturnCommandTask extends MgBuildMultilineExpressionCommandT
     private static final PartProcessor PROCESSOR = new PartProcessor<>(
         MgBuildExpressionPartTask.class,
         MgBuildReturnCommandTask.class,
-        (source, destination) -> destination.command = new MgLogicalReturnCommand(source.getExpression())
+        (source, destination) -> destination.command = new MgUnresolvedReturnCommand(source.getExpression())
     );
 
     @Output
-    private MgLogicalReturnCommand command;
+    private MgUnresolvedReturnCommand command;
 
     public MgBuildReturnCommandTask(Block block) {
         super(block);
     }
 
-    public MgLogicalReturnCommand getCommand() {
+    public MgUnresolvedReturnCommand getCommand() {
         return command;
     }
 
@@ -43,17 +43,17 @@ public class MgBuildReturnCommandTask extends MgBuildMultilineExpressionCommandT
         if(!parts.isEmpty()){
             super.buildParts(parts);
         } else {
-            command = new MgLogicalReturnCommand();
+            command = new MgUnresolvedReturnCommand();
         }
     }
 
     @Override
-    public MgLogicalClumpExpression getExpression() {
+    public MgUnresolvedClumpExpression getExpression() {
         return command.getExpression();
     }
 
     @Override
-    public void setExpression(MgLogicalClumpExpression expression) {
+    public void setExpression(MgUnresolvedClumpExpression expression) {
         command.setExpression(expression);
     }
 }

@@ -6,7 +6,7 @@ import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.builder.block.part.MgBuildDeclarationsBlockTask;
 import cz.mg.compiler.tasks.mg.builder.block.root.command.MgBuildCheckpointCommandTask;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
-import cz.mg.language.entities.mg.logical.components.MgLogicalFunction;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedFunction;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildNameTask;
@@ -16,7 +16,7 @@ public class MgBuildFunctionTask extends MgBuildBlockTask {
     private static final cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor PROCESSOR = new cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor<>(
         MgBuildNameTask.class,
         MgBuildFunctionTask.class,
-        (source, destination) -> destination.function = new MgLogicalFunction(source.getName())
+        (source, destination) -> destination.function = new MgUnresolvedFunction(source.getName())
     );
 
     public static final List<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
@@ -164,13 +164,13 @@ public class MgBuildFunctionTask extends MgBuildBlockTask {
     );
 
     @Output
-    private MgLogicalFunction function;
+    private MgUnresolvedFunction function;
 
     public MgBuildFunctionTask(Block block) {
         super(block);
     }
 
-    public MgLogicalFunction getFunction() {
+    public MgUnresolvedFunction getFunction() {
         return function;
     }
 

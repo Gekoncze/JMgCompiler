@@ -4,9 +4,9 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.component.structured.ClassContext;
-import cz.mg.language.entities.mg.logical.components.MgLogicalClass;
-import cz.mg.language.entities.mg.logical.components.MgLogicalFunction;
-import cz.mg.language.entities.mg.logical.components.MgLogicalVariable;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedClass;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedFunction;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedVariable;
 import cz.mg.language.entities.mg.runtime.components.stamps.MgStamp;
 import cz.mg.language.entities.mg.runtime.components.types.classes.MgClass;
 import cz.mg.compiler.tasks.mg.resolver.context.Context;
@@ -15,12 +15,12 @@ import cz.mg.compiler.tasks.mg.resolver.link.MgResolveBaseClassesTask;
 
 public class MgResolveClassDefinitionTask extends MgResolveComponentDefinitionTask {
     @Input
-    private final MgLogicalClass logicalClass;
+    private final MgUnresolvedClass logicalClass;
 
     @Output
     private MgClass clazz;
 
-    public MgResolveClassDefinitionTask(Context context, MgLogicalClass logicalClass) {
+    public MgResolveClassDefinitionTask(Context context, MgUnresolvedClass logicalClass) {
         super(new cz.mg.compiler.tasks.mg.resolver.context.component.structured.ClassContext(context), logicalClass);
         this.logicalClass = logicalClass;
     }
@@ -46,7 +46,7 @@ public class MgResolveClassDefinitionTask extends MgResolveComponentDefinitionTa
             clazz.setBaseClass(task.getBaseClass());
         });
 
-        for(MgLogicalVariable logicalVariable : logicalClass.getVariables()){
+        for(MgUnresolvedVariable logicalVariable : logicalClass.getVariables()){
             postpone(MgResolveClassVariableDefinitionTask.class, () -> {
                 MgResolveClassVariableDefinitionTask task = new MgResolveClassVariableDefinitionTask(getContext(), clazz, logicalVariable);
                 task.run();
@@ -54,7 +54,7 @@ public class MgResolveClassDefinitionTask extends MgResolveComponentDefinitionTa
             });
         }
 
-        for(MgLogicalFunction logicalFunction : logicalClass.getFunctions()){
+        for(MgUnresolvedFunction logicalFunction : logicalClass.getFunctions()){
             postpone(MgResolveClassFunctionDefinitionTask.class, () -> {
                 MgResolveClassFunctionDefinitionTask task = new MgResolveClassFunctionDefinitionTask(getContext(), logicalFunction);
                 task.run();

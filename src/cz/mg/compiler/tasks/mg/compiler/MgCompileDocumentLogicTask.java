@@ -4,7 +4,7 @@ import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.parser.MgParsePageTask;
 import cz.mg.language.entities.file.Document;
-import cz.mg.language.entities.mg.logical.components.MgLogicalComponent;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedComponent;
 import cz.mg.compiler.tasks.input.file.MgLoadTextFileTask;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildRootTask;
 import cz.mg.compiler.tasks.mg.composer.MgComposeBlocksTask;
@@ -15,13 +15,13 @@ public class MgCompileDocumentLogicTask extends MgCompileFileLogicTask {
     private final Document document;
 
     @Output
-    private MgLogicalComponent component;
+    private MgUnresolvedComponent component;
 
     public MgCompileDocumentLogicTask(Document document) {
         this.document = document;
     }
 
-    public MgLogicalComponent getComponent() {
+    public MgUnresolvedComponent getComponent() {
         return component;
     }
 

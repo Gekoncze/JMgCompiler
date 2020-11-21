@@ -6,7 +6,7 @@ import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.Context;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalContinueCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedContinueCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.Continuable;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgContinueCommand;
@@ -17,12 +17,12 @@ public class MgResolveContinueCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalContinueCommand logicalCommand;
+    private final MgUnresolvedContinueCommand logicalCommand;
 
     @Output
     private MgContinueCommand command;
 
-    public MgResolveContinueCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgLogicalContinueCommand logicalCommand) {
+    public MgResolveContinueCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgUnresolvedContinueCommand logicalCommand) {
         this.context = new cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext(context);
         this.logicalCommand = logicalCommand;
     }

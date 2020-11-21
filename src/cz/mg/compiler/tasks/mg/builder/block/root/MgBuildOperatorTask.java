@@ -3,8 +3,8 @@ package cz.mg.compiler.tasks.mg.builder.block.root;
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
-import cz.mg.language.entities.mg.logical.components.MgLogicalFunction;
-import cz.mg.language.entities.mg.logical.components.MgLogicalOperator;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedFunction;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedOperator;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.part.MgBuildPriorityBlockTask;
 
@@ -35,10 +35,10 @@ public abstract class MgBuildOperatorTask extends MgBuildFunctionTask {
         super(block);
     }
 
-    public abstract MgLogicalOperator getOperator();
+    public abstract MgUnresolvedOperator getOperator();
 
     @Override
-    public MgLogicalFunction getFunction() {
+    public MgUnresolvedFunction getFunction() {
         return getOperator();
     }
 

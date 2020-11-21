@@ -3,7 +3,7 @@ package cz.mg.compiler.tasks.mg.resolver.command.expression.operator;
 import cz.mg.compiler.Todo;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.operator.MgLogicalLunaryOperatorCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedLunaryOperatorCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.operator.MgLunaryOperatorExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
@@ -12,14 +12,14 @@ import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 public class MgResolveLunaryOperatorExpressionTask extends MgResolveUnaryOperatorExpressionTask {
     @Input
-    private final MgLogicalLunaryOperatorCallExpression logicalExpression;
+    private final MgUnresolvedLunaryOperatorCallExpression logicalExpression;
 
     @Output
     private MgLunaryOperatorExpression expression;
 
     public MgResolveLunaryOperatorExpressionTask(
         CommandContext context,
-        MgLogicalLunaryOperatorCallExpression logicalExpression,
+        MgUnresolvedLunaryOperatorCallExpression logicalExpression,
         ExpectedParentInput parent
     ) {
         super(context, parent);

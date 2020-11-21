@@ -2,7 +2,7 @@ package cz.mg.compiler.tasks.mg.resolver.command.expression.name.instance;
 
 import cz.mg.compiler.Todo;
 import cz.mg.compiler.annotations.Input;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.MgLogicalMemberNameCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedMemberNameCallExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTask;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
@@ -10,11 +10,11 @@ import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 public abstract class MgResolveInstanceNameExpressionTask extends MgResolveExpressionTask {
     @Input
-    private final MgLogicalMemberNameCallExpression logicalExpression;
+    private final MgUnresolvedMemberNameCallExpression logicalExpression;
 
     public MgResolveInstanceNameExpressionTask(
         CommandContext context,
-        MgLogicalMemberNameCallExpression logicalExpression,
+        MgUnresolvedMemberNameCallExpression logicalExpression,
         ExpectedParentInput parent
     ) {
         super(context, parent);
@@ -175,7 +175,7 @@ public abstract class MgResolveInstanceNameExpressionTask extends MgResolveExpre
 //
     public static MgResolveInstanceNameExpressionTask create(
         CommandContext context,
-        MgLogicalMemberNameCallExpression logicalExpression,
+        MgUnresolvedMemberNameCallExpression logicalExpression,
         ExpectedParentInput parent
     ){
         if(logicalExpression.getExpression() == null){

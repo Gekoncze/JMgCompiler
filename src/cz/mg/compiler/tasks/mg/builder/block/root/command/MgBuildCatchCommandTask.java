@@ -1,8 +1,8 @@
 package cz.mg.compiler.tasks.mg.builder.block.root.command;
 
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalBlockCommand;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCatchCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedBlockCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCatchCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildDeclarationTask;
 import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
@@ -12,22 +12,22 @@ public class MgBuildCatchCommandTask extends MgBuildBlockCommandTask {
     private static final PartProcessor PROCESSOR = new PartProcessor<>(
         MgBuildDeclarationTask.class,
         MgBuildCatchCommandTask.class,
-        (source, destination) -> destination.command = new MgLogicalCatchCommand(source.getVariable())
+        (source, destination) -> destination.command = new MgUnresolvedCatchCommand(source.getVariable())
     );
 
     @Output
-    private MgLogicalCatchCommand command;
+    private MgUnresolvedCatchCommand command;
 
     public MgBuildCatchCommandTask(Block block) {
         super(block);
     }
 
-    public MgLogicalCatchCommand getCommand() {
+    public MgUnresolvedCatchCommand getCommand() {
         return command;
     }
 
     @Override
-    protected MgLogicalBlockCommand getOutput() {
+    protected MgUnresolvedBlockCommand getOutput() {
         return command;
     }
 

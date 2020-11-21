@@ -5,7 +5,7 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.builder.part.chain.list.MgBuildDeclarationListTask;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
-import cz.mg.language.entities.mg.logical.components.MgLogicalVariable;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedVariable;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
 
@@ -31,13 +31,13 @@ public class MgBuildDeclarationsBlockTask extends MgBuildBlockTask {
     );
 
     @Output
-    private final List<MgLogicalVariable> variables = new List<>();
+    private final List<MgUnresolvedVariable> variables = new List<>();
 
     public MgBuildDeclarationsBlockTask(Block block) {
         super(block);
     }
 
-    public List<MgLogicalVariable> getVariables() {
+    public List<MgUnresolvedVariable> getVariables() {
         return variables;
     }
 

@@ -3,9 +3,9 @@ package cz.mg.compiler.tasks.mg.builder.part;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.expressions.*;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.MgLogicalNameCallExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.MgLogicalValueCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.*;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedNameCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedValueCallExpression;
 import cz.mg.language.entities.text.structured.Part;
 import cz.mg.language.entities.text.structured.parts.Clump;
 import cz.mg.language.entities.text.structured.parts.leaves.Name;
@@ -15,13 +15,13 @@ import cz.mg.language.entities.text.structured.parts.leaves.Value;
 
 public class MgBuildExpressionPartTask extends MgBuildPartTask {
     @Output
-    private MgLogicalClumpExpression expression;
+    private MgUnresolvedClumpExpression expression;
 
     public MgBuildExpressionPartTask(List<Part> parts) {
         super(parts);
     }
 
-    public MgLogicalClumpExpression getExpression() {
+    public MgUnresolvedClumpExpression getExpression() {
         return expression;
     }
 
@@ -31,7 +31,7 @@ public class MgBuildExpressionPartTask extends MgBuildPartTask {
         expression = buildClump(parts);
     }
 
-    private static MgLogicalExpression build(Part part){
+    private static MgUnresolvedExpression build(Part part){
         if(part instanceof Name){
             return buildName((Name) part);
         }
@@ -51,27 +51,27 @@ public class MgBuildExpressionPartTask extends MgBuildPartTask {
         throw new LanguageException("Unsupported part " + part.getClass().getSimpleName() + " in expression.");
     }
 
-    private static MgLogicalOperatorExpression buildOperator(Operator operator) {
-        return new MgLogicalOperatorExpression(operator.getText());
+    private static MgUnresolvedOperatorExpression buildOperator(Operator operator) {
+        return new MgUnresolvedOperatorExpression(operator.getText());
     }
 
-    private static MgLogicalNameCallExpression buildName(Name name){
-        return new MgLogicalNameCallExpression(name.getText());
+    private static MgUnresolvedNameCallExpression buildName(Name name){
+        return new MgUnresolvedNameCallExpression(name.getText());
     }
 
-    private static MgLogicalValueCallExpression buildValue(Value value){
-        return new MgLogicalValueCallExpression(value.getText());
+    private static MgUnresolvedValueCallExpression buildValue(Value value){
+        return new MgUnresolvedValueCallExpression(value.getText());
     }
 
-    private static MgLogicalClumpExpression buildClump(Clump clump){
+    private static MgUnresolvedClumpExpression buildClump(Clump clump){
         return buildClump(clump.getParts());
     }
 
-    private static MgLogicalClumpExpression buildClump(List<Part> parts){
-        List<MgLogicalExpression> expressions = new List<>();
+    private static MgUnresolvedClumpExpression buildClump(List<Part> parts){
+        List<MgUnresolvedExpression> expressions = new List<>();
         for(Part part : parts){
             expressions.addLast(build(part));
         }
-        return new MgLogicalClumpExpression(expressions);
+        return new MgUnresolvedClumpExpression(expressions);
     }
 }

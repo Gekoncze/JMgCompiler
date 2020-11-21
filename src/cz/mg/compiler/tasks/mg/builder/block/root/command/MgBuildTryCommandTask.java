@@ -3,8 +3,8 @@ package cz.mg.compiler.tasks.mg.builder.block.root.command;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalBlockCommand;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalTryCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedBlockCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedTryCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
@@ -12,18 +12,18 @@ import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
 
 public class MgBuildTryCommandTask extends MgBuildBlockCommandTask {
     @Output
-    private MgLogicalTryCommand command;
+    private MgUnresolvedTryCommand command;
 
     public MgBuildTryCommandTask(Block block) {
         super(block);
     }
 
-    public MgLogicalTryCommand getCommand() {
+    public MgUnresolvedTryCommand getCommand() {
         return command;
     }
 
     @Override
-    protected MgLogicalBlockCommand getOutput() {
+    protected MgUnresolvedBlockCommand getOutput() {
         return command;
     }
 
@@ -37,7 +37,7 @@ public class MgBuildTryCommandTask extends MgBuildBlockCommandTask {
         if(!parts.isEmpty()){
             throw new LanguageException("Unexpected part(s).");
         } else {
-            command = new MgLogicalTryCommand();
+            command = new MgUnresolvedTryCommand();
         }
     }
 }

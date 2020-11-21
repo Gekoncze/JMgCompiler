@@ -1,8 +1,8 @@
 package cz.mg.compiler.tasks.mg.builder.block.root.command;
 
 import cz.mg.compiler.annotations.Output;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalExpressionCommand;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalClumpExpression;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedExpressionCommand;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedClumpExpression;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildExpressionPartTask;
 import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
@@ -12,17 +12,17 @@ public class MgBuildExpressionCommandTask extends MgBuildMultilineExpressionComm
     private static final PartProcessor PROCESSOR = new PartProcessor<>(
         MgBuildExpressionPartTask.class,
         MgBuildExpressionCommandTask.class,
-        (source, destination) -> destination.command = new MgLogicalExpressionCommand(source.getExpression())
+        (source, destination) -> destination.command = new MgUnresolvedExpressionCommand(source.getExpression())
     );
 
     @Output
-    private MgLogicalExpressionCommand command;
+    private MgUnresolvedExpressionCommand command;
 
     public MgBuildExpressionCommandTask(Block block) {
         super(block);
     }
 
-    public MgLogicalExpressionCommand getCommand() {
+    public MgUnresolvedExpressionCommand getCommand() {
         return command;
     }
 
@@ -37,12 +37,12 @@ public class MgBuildExpressionCommandTask extends MgBuildMultilineExpressionComm
     }
 
     @Override
-    public MgLogicalClumpExpression getExpression() {
+    public MgUnresolvedClumpExpression getExpression() {
         return command.getExpression();
     }
 
     @Override
-    public void setExpression(MgLogicalClumpExpression expression) {
+    public void setExpression(MgUnresolvedClumpExpression expression) {
         command.setExpression(expression);
     }
 }

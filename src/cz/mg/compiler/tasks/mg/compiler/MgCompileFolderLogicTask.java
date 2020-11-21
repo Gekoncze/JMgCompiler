@@ -6,7 +6,7 @@ import cz.mg.language.LanguageException;
 import cz.mg.language.entities.file.Document;
 import cz.mg.language.entities.file.File;
 import cz.mg.language.entities.file.Folder;
-import cz.mg.language.entities.mg.logical.components.MgLogicalLocation;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedLocation;
 
 
 public class MgCompileFolderLogicTask extends MgCompileFileLogicTask {
@@ -14,19 +14,19 @@ public class MgCompileFolderLogicTask extends MgCompileFileLogicTask {
     private final Folder folder;
 
     @Output
-    private MgLogicalLocation location;
+    private MgUnresolvedLocation location;
 
     public MgCompileFolderLogicTask(Folder folder) {
         this.folder = folder;
     }
 
-    public MgLogicalLocation getLocation() {
+    public MgUnresolvedLocation getLocation() {
         return location;
     }
 
     @Override
     protected void onRun() {
-        location = new MgLogicalLocation(folder.getName());
+        location = new MgUnresolvedLocation(folder.getName());
         for(File file : folder.getFiles()){
             if(file instanceof Folder){
                 MgCompileFolderLogicTask compileFolderTask = new MgCompileFolderLogicTask((Folder) file);

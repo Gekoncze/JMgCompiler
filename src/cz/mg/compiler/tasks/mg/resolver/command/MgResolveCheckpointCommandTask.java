@@ -4,8 +4,8 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCatchCommand;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCheckpointCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCatchCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCheckpointCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgCatchCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgCheckpointCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgFinallyCommand;
@@ -17,12 +17,12 @@ public class MgResolveCheckpointCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalCheckpointCommand logicalCommand;
+    private final MgUnresolvedCheckpointCommand logicalCommand;
 
     @Output
     private MgCheckpointCommand command;
 
-    public MgResolveCheckpointCommandTask(CommandContext context, MgLogicalCheckpointCommand logicalCommand) {
+    public MgResolveCheckpointCommandTask(CommandContext context, MgUnresolvedCheckpointCommand logicalCommand) {
         this.context = context;
         this.logicalCommand = logicalCommand;
     }
@@ -44,7 +44,7 @@ public class MgResolveCheckpointCommandTask extends MgResolveCommandTask {
         List<MgCatchCommand> catchCommands = null;
         if(logicalCommand.getCatchCommands() != null){
             catchCommands = new List<>();
-            for(MgLogicalCatchCommand logicalCatchCommand : logicalCommand.getCatchCommands()){
+            for(MgUnresolvedCatchCommand logicalCatchCommand : logicalCommand.getCatchCommands()){
                 cz.mg.compiler.tasks.mg.resolver.command.MgResolveCatchCommandTask resolveCatchCommandTask = new MgResolveCatchCommandTask(context, logicalCatchCommand);
                 resolveCatchCommandTask.run();
                 catchCommands.addLast(resolveCatchCommandTask.getCommand());

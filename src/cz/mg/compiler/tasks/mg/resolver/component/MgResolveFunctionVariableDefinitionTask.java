@@ -4,7 +4,7 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.component.VariableContext;
-import cz.mg.language.entities.mg.logical.components.MgLogicalVariable;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedVariable;
 import cz.mg.language.entities.mg.runtime.components.stamps.MgStamp;
 import cz.mg.language.entities.mg.runtime.components.types.functions.MgFunction;
 import cz.mg.language.entities.mg.runtime.components.variables.MgInstanceVariable;
@@ -16,12 +16,12 @@ public class MgResolveFunctionVariableDefinitionTask extends MgResolveVariableDe
     private final MgFunction function;
 
     @Input
-    private final MgLogicalVariable logicalVariable;
+    private final MgUnresolvedVariable logicalVariable;
 
     @Output
     private MgInstanceVariable variable;
 
-    public MgResolveFunctionVariableDefinitionTask(Context context, MgFunction function, MgLogicalVariable logicalVariable) {
+    public MgResolveFunctionVariableDefinitionTask(Context context, MgFunction function, MgUnresolvedVariable logicalVariable) {
         super(new VariableContext(context), logicalVariable);
         this.function = function;
         this.logicalVariable = logicalVariable;

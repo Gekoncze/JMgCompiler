@@ -6,8 +6,8 @@ import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTa
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTreeTask;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCaseCommand;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCaseCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgCaseCommand;
 
 
@@ -16,12 +16,12 @@ public class MgResolveCaseCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalCaseCommand logicalCommand;
+    private final MgUnresolvedCaseCommand logicalCommand;
 
     @Output
     private MgCaseCommand command;
 
-    public MgResolveCaseCommandTask(CommandContext context, MgLogicalCaseCommand logicalCommand) {
+    public MgResolveCaseCommandTask(CommandContext context, MgUnresolvedCaseCommand logicalCommand) {
         this.context = context;
         this.logicalCommand = logicalCommand;
     }
@@ -45,7 +45,7 @@ public class MgResolveCaseCommandTask extends MgResolveCommandTask {
         command = new MgCaseCommand(resolveExpressionTask.getExpression());
         context.setCommand(command);
 
-        for(MgLogicalCommand logicalCommand : logicalCommand.getCommands()){
+        for(MgUnresolvedCommand logicalCommand : logicalCommand.getCommands()){
             MgResolveCommandTask resolveCommandTask = MgResolveCommandTask.create(context, logicalCommand);
             resolveCommandTask.run();
             command.getCommands().addLast(resolveCommandTask.getCommand());

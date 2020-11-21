@@ -5,7 +5,7 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCheckpointCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCheckpointCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 
@@ -53,13 +53,13 @@ public class MgBuildCheckpointCommandTask extends MgBuildCommandTask {
     );
 
     @Output
-    private MgLogicalCheckpointCommand command;
+    private MgUnresolvedCheckpointCommand command;
 
     public MgBuildCheckpointCommandTask(Block block) {
         super(block);
     }
 
-    public MgLogicalCheckpointCommand getCommand() {
+    public MgUnresolvedCheckpointCommand getCommand() {
         return command;
     }
 
@@ -83,7 +83,7 @@ public class MgBuildCheckpointCommandTask extends MgBuildCommandTask {
         if(!parts.isEmpty()){
             throw new LanguageException("Unexpected part(s).");
         } else {
-            command = new MgLogicalCheckpointCommand();
+            command = new MgUnresolvedCheckpointCommand();
         }
     }
 }

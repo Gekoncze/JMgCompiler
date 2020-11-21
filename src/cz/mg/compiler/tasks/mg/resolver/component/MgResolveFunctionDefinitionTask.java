@@ -6,9 +6,9 @@ import cz.mg.compiler.annotations.Utility;
 import cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionContext;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.FunctionBodyContext;
-import cz.mg.language.entities.mg.logical.components.MgLogicalFunction;
-import cz.mg.language.entities.mg.logical.components.MgLogicalVariable;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCommand;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedFunction;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedVariable;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCommand;
 import cz.mg.language.entities.mg.runtime.components.types.functions.MgFunction;
 import cz.mg.compiler.tasks.mg.resolver.command.MgResolveCommandTask;
 import cz.mg.compiler.tasks.mg.resolver.context.Context;
@@ -16,7 +16,7 @@ import cz.mg.compiler.tasks.mg.resolver.context.Context;
 
 public abstract class MgResolveFunctionDefinitionTask extends MgResolveComponentDefinitionTask {
     @Input
-    protected final MgLogicalFunction logicalFunction;
+    protected final MgUnresolvedFunction logicalFunction;
 
     @Output
     protected MgFunction function;
@@ -24,7 +24,7 @@ public abstract class MgResolveFunctionDefinitionTask extends MgResolveComponent
     @Utility
     private cz.mg.compiler.tasks.mg.resolver.context.executable.FunctionBodyContext functionBodyContext;
 
-    public MgResolveFunctionDefinitionTask(Context context, MgLogicalFunction logicalFunction) {
+    public MgResolveFunctionDefinitionTask(Context context, MgUnresolvedFunction logicalFunction) {
         super(new cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionContext(context), logicalFunction);
         this.logicalFunction = logicalFunction;
         this.functionBodyContext = new FunctionBodyContext(getContext());
@@ -40,7 +40,7 @@ public abstract class MgResolveFunctionDefinitionTask extends MgResolveComponent
     }
 
     protected void onResolveComponentChildren(){
-        for(MgLogicalVariable logicalInput : logicalFunction.getInput()){
+        for(MgUnresolvedVariable logicalInput : logicalFunction.getInput()){
             postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask.class, () -> {
                 cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask task = new cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask(getContext(), function, logicalInput);
                 task.run();
@@ -48,7 +48,7 @@ public abstract class MgResolveFunctionDefinitionTask extends MgResolveComponent
             });
         }
 
-        for(MgLogicalVariable logicalOutput : logicalFunction.getOutput()){
+        for(MgUnresolvedVariable logicalOutput : logicalFunction.getOutput()){
             postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask.class, () -> {
                 cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask task = new MgResolveFunctionVariableDefinitionTask(getContext(), function, logicalOutput);
                 task.run();
@@ -56,7 +56,7 @@ public abstract class MgResolveFunctionDefinitionTask extends MgResolveComponent
             });
         }
 
-        for(MgLogicalCommand logicalCommand : logicalFunction.getCommands()){
+        for(MgUnresolvedCommand logicalCommand : logicalFunction.getCommands()){
             postpone(MgResolveCommandTask.class, () -> {
                 MgResolveCommandTask task = MgResolveCommandTask.create(new CommandContext(functionBodyContext), logicalCommand);
                 task.run();

@@ -5,9 +5,9 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Cache;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
 import cz.mg.language.entities.mg.Operators;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalClumpExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalOperatorExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedClumpExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedOperatorExpression;
 import cz.mg.language.entities.text.structured.Block;
 
 
@@ -29,7 +29,7 @@ public abstract class MgBuildMultilineExpressionCommandTask extends MgBuildComma
     );
 
     @Cache
-    private List<MgLogicalExpression> lineExpressions;
+    private List<MgUnresolvedExpression> lineExpressions;
 
     public MgBuildMultilineExpressionCommandTask(Block block) {
         super(block);
@@ -43,17 +43,17 @@ public abstract class MgBuildMultilineExpressionCommandTask extends MgBuildComma
 
     private void addLineExpressions(){
         if(lineExpressions != null){
-            MgLogicalClumpExpression expression = getExpression();
-            if(expression == null) setExpression(expression = new MgLogicalClumpExpression());
+            MgUnresolvedClumpExpression expression = getExpression();
+            if(expression == null) setExpression(expression = new MgUnresolvedClumpExpression());
             expression.getExpressions().addLast(createListExpression());
         }
     }
 
-    private MgLogicalClumpExpression createListExpression(){
-        MgLogicalClumpExpression expression = new MgLogicalClumpExpression();
-        for(MgLogicalExpression lineExpression : lineExpressions){
+    private MgUnresolvedClumpExpression createListExpression(){
+        MgUnresolvedClumpExpression expression = new MgUnresolvedClumpExpression();
+        for(MgUnresolvedExpression lineExpression : lineExpressions){
             expression.getExpressions().addLast(lineExpression);
-            expression.getExpressions().addLast(new MgLogicalOperatorExpression(Operators.GROUP));
+            expression.getExpressions().addLast(new MgUnresolvedOperatorExpression(Operators.GROUP));
         }
         expression.getExpressions().removeLast();
         return expression;
@@ -64,6 +64,6 @@ public abstract class MgBuildMultilineExpressionCommandTask extends MgBuildComma
         return PATTERNS;
     }
 
-    public abstract MgLogicalClumpExpression getExpression();
-    public abstract void setExpression(MgLogicalClumpExpression expression);
+    public abstract MgUnresolvedClumpExpression getExpression();
+    public abstract void setExpression(MgUnresolvedClumpExpression expression);
 }

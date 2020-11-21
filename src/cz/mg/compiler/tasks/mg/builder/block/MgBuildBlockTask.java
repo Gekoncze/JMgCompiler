@@ -8,7 +8,7 @@ import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.tasks.mg.builder.MgBuildTask;
 import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.Stampable;
+import cz.mg.language.entities.mg.unresolved.Stampable;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildPartTask;

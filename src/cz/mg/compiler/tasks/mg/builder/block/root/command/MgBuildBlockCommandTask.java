@@ -3,7 +3,7 @@ package cz.mg.compiler.tasks.mg.builder.block.root.command;
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalBlockCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedBlockCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
 import cz.mg.compiler.tasks.mg.builder.block.part.MgBuildNameBlockTask;
@@ -146,7 +146,7 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
     }
 
     @Override
-    protected abstract MgLogicalBlockCommand getOutput();
+    protected abstract MgUnresolvedBlockCommand getOutput();
 
     @Override
     protected Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {

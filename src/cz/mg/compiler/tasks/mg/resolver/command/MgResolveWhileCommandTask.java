@@ -6,8 +6,8 @@ import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTa
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTreeTask;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalCommand;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalWhileCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedWhileCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgWhileCommand;
 
 
@@ -16,12 +16,12 @@ public class MgResolveWhileCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalWhileCommand logicalCommand;
+    private final MgUnresolvedWhileCommand logicalCommand;
 
     @Output
     private MgWhileCommand command;
 
-    public MgResolveWhileCommandTask(CommandContext context, MgLogicalWhileCommand logicalCommand) {
+    public MgResolveWhileCommandTask(CommandContext context, MgUnresolvedWhileCommand logicalCommand) {
         this.context = context;
         this.logicalCommand = logicalCommand;
     }
@@ -45,7 +45,7 @@ public class MgResolveWhileCommandTask extends MgResolveCommandTask {
         command = new MgWhileCommand(logicalCommand.getName(), resolveExpressionTask.getExpression());
         context.setCommand(command);
 
-        for(MgLogicalCommand logicalCommand : logicalCommand.getCommands()){
+        for(MgUnresolvedCommand logicalCommand : logicalCommand.getCommands()){
             MgResolveCommandTask resolveCommandTask = MgResolveCommandTask.create(context, logicalCommand);
             resolveCommandTask.run();
             command.getCommands().addLast(resolveCommandTask.getCommand());

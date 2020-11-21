@@ -2,7 +2,7 @@ package cz.mg.compiler.tasks.mg.resolver.command.expression.other;
 
 import cz.mg.compiler.Todo;
 import cz.mg.compiler.annotations.Input;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.MgLogicalGroupCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.MgUnresolvedGroupCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.expressions.MgExpression;
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTask;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
@@ -11,11 +11,11 @@ import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 public class MgResolveGroupExpressionTask extends MgResolveExpressionTask {
     @Input
-    private final MgLogicalGroupCallExpression logicalExpression;
+    private final MgUnresolvedGroupCallExpression logicalExpression;
 
     public MgResolveGroupExpressionTask(
         CommandContext context,
-        MgLogicalGroupCallExpression logicalExpression,
+        MgUnresolvedGroupCallExpression logicalExpression,
         ExpectedParentInput parent
     ) {
         super(context, parent);
@@ -43,7 +43,7 @@ public class MgResolveGroupExpressionTask extends MgResolveExpressionTask {
 //
 //    @Override
 //    protected void onResolveChildren() {
-//        for(MgLogicalCallExpression expression : logicalExpression.getExpressions()){
+//        for(MgUnresolvedCallExpression expression : logicalExpression.getExpressions()){
 //            onResolveChild(expression);
 //        }
 //    }

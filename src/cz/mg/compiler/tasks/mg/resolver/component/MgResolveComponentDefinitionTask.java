@@ -5,8 +5,8 @@ import cz.mg.collections.text.ReadableText;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.tasks.mg.resolver.context.component.ComponentContext;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.components.MgLogicalComponent;
-import cz.mg.language.entities.mg.logical.parts.MgLogicalUsage;
+import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedComponent;
+import cz.mg.language.entities.mg.unresolved.parts.MgUnresolvedUsage;
 import cz.mg.language.entities.mg.runtime.components.stamps.MgStamp;
 import cz.mg.language.entities.mg.runtime.components.stamps.buildin.MgGlobalStamp;
 import cz.mg.language.entities.mg.runtime.components.stamps.buildin.MgInstanceStamp;
@@ -18,9 +18,9 @@ import cz.mg.compiler.tasks.mg.resolver.link.MgResolveComponentStampTask;
 
 public abstract class MgResolveComponentDefinitionTask extends MgPostponeResolveTask {
     @Input
-    private final MgLogicalComponent logicalComponent;
+    private final MgUnresolvedComponent logicalComponent;
 
-    public MgResolveComponentDefinitionTask(cz.mg.compiler.tasks.mg.resolver.context.component.ComponentContext context, MgLogicalComponent logicalComponent) {
+    public MgResolveComponentDefinitionTask(cz.mg.compiler.tasks.mg.resolver.context.component.ComponentContext context, MgUnresolvedComponent logicalComponent) {
         super(context);
         this.logicalComponent = logicalComponent;
     }
@@ -37,7 +37,7 @@ public abstract class MgResolveComponentDefinitionTask extends MgPostponeResolve
     }
 
     private void resolveUsages(){
-        for(MgLogicalUsage logicalUsage : logicalComponent.getContext().getUsages()){
+        for(MgUnresolvedUsage logicalUsage : logicalComponent.getWorkspace().getUsages()){
             postpone(MgResolveUsageTask.class, () -> {
                 MgResolveUsageTask task = new MgResolveUsageTask(getContext(), logicalUsage);
                 task.run();

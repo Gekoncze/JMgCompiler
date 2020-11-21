@@ -6,7 +6,7 @@ import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTa
 import cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTreeTask;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalReturnCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedReturnCommand;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgReturnCommand;
 
 
@@ -15,12 +15,12 @@ public class MgResolveReturnCommandTask extends MgResolveCommandTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalReturnCommand logicalCommand;
+    private final MgUnresolvedReturnCommand logicalCommand;
 
     @Output
     private MgReturnCommand command;
 
-    public MgResolveReturnCommandTask(CommandContext context, MgLogicalReturnCommand logicalCommand) {
+    public MgResolveReturnCommandTask(CommandContext context, MgUnresolvedReturnCommand logicalCommand) {
         this.context = context;
         this.logicalCommand = logicalCommand;
     }

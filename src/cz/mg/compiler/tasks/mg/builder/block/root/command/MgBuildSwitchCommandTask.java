@@ -5,7 +5,7 @@ import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
 import cz.mg.language.LanguageException;
-import cz.mg.language.entities.mg.logical.parts.commands.MgLogicalSwitchCommand;
+import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedSwitchCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.language.entities.text.structured.Part;
 
@@ -40,13 +40,13 @@ public class MgBuildSwitchCommandTask extends MgBuildCommandTask {
     );
 
     @Output
-    private MgLogicalSwitchCommand command;
+    private MgUnresolvedSwitchCommand command;
 
     public MgBuildSwitchCommandTask(Block block) {
         super(block);
     }
 
-    public MgLogicalSwitchCommand getCommand() {
+    public MgUnresolvedSwitchCommand getCommand() {
         return command;
     }
 
@@ -70,7 +70,7 @@ public class MgBuildSwitchCommandTask extends MgBuildCommandTask {
         if(!parts.isEmpty()){
             throw new LanguageException("Unexpected part(s).");
         } else {
-            command = new MgLogicalSwitchCommand();
+            command = new MgUnresolvedSwitchCommand();
         }
     }
 }

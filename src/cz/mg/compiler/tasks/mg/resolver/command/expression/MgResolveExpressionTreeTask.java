@@ -8,15 +8,15 @@ import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 import cz.mg.language.LanguageException;
 import cz.mg.language.entities.mg.Operators;
-import cz.mg.language.entities.mg.logical.parts.MgLogicalDatatype;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalClumpExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.MgLogicalOperatorExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.*;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.operator.MgLogicalBinaryOperatorCallExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.operator.MgLogicalEmptyCallExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.operator.MgLogicalLunaryOperatorCallExpression;
-import cz.mg.language.entities.mg.logical.parts.expressions.calls.operator.MgLogicalRunaryOperatorCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.MgUnresolvedDatatype;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedClumpExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedOperatorExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.*;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedBinaryOperatorCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedEmptyCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedLunaryOperatorCallExpression;
+import cz.mg.language.entities.mg.unresolved.parts.expressions.calls.operator.MgUnresolvedRunaryOperatorCallExpression;
 import cz.mg.language.entities.mg.runtime.parts.MgDatatype;
 import cz.mg.language.entities.mg.runtime.parts.commands.MgBlockCommand;
 import cz.mg.compiler.tasks.mg.builder.part.MgBuildDeclarationTask;
@@ -33,23 +33,23 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
     private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
 
     @Input
-    private final MgLogicalClumpExpression logicalClumpExpression;
+    private final MgUnresolvedClumpExpression logicalClumpExpression;
 
     @Output
-    private MgLogicalCallExpression logicalCallExpression;
+    private MgUnresolvedCallExpression logicalCallExpression;
 
-    public MgResolveExpressionTreeTask(CommandContext context, MgLogicalClumpExpression logicalClumpExpression) {
+    public MgResolveExpressionTreeTask(CommandContext context, MgUnresolvedClumpExpression logicalClumpExpression) {
         this.context = context;
         this.logicalClumpExpression = logicalClumpExpression;
     }
 
-    public MgLogicalCallExpression getLogicalCallExpression() {
+    public MgUnresolvedCallExpression getLogicalCallExpression() {
         return logicalCallExpression;
     }
 
     @Override
     protected void onRun() {
-        List<MgLogicalExpression> expressions = prepareExpressions(logicalClumpExpression);
+        List<MgUnresolvedExpression> expressions = prepareExpressions(logicalClumpExpression);
 
         resolveDeclarations(expressions);
         resolveFunctionCalls(expressions);
@@ -58,33 +58,33 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         resolveGroupCalls(expressions);
 
         if(expressions.count() == 0){
-            expressions.addLast(new MgLogicalEmptyCallExpression());
+            expressions.addLast(new MgUnresolvedEmptyCallExpression());
         }
 
         if(expressions.count() != 1) {
             throw new LanguageException("Illegal expression.");
         }
 
-        if(!(expressions.getFirst() instanceof MgLogicalCallExpression)) {
+        if(!(expressions.getFirst() instanceof MgUnresolvedCallExpression)) {
             throw new LanguageException("Illegal expression.");
         }
 
-        logicalCallExpression = (MgLogicalCallExpression) expressions.getFirst();
+        logicalCallExpression = (MgUnresolvedCallExpression) expressions.getFirst();
     }
 
-    private void resolveDeclarations(List<MgLogicalExpression> operators){
+    private void resolveDeclarations(List<MgUnresolvedExpression> operators){
         for(
-            ListItem<MgLogicalExpression> item = operators.getFirstItem();
+            ListItem<MgUnresolvedExpression> item = operators.getFirstItem();
             item != null;
             item = item.getNextItem()
         ){
             if(isPlainName(item)){
                 if(isOperator(item.getNextItem())){
                     if(isPlainName(item.getNextItem().getNextItem())){
-                        ReadableText typeName = ((MgLogicalNameCallExpression)item.get()).getName();
-                        ReadableText operator = ((MgLogicalOperatorExpression)item.getNext()).getName();
-                        ReadableText name = ((MgLogicalNameCallExpression)item.getNextItem().getNext()).getName();
-                        MgLogicalDatatype logicalDatatype = MgBuildDeclarationTask.createDatatype(typeName, operator);
+                        ReadableText typeName = ((MgUnresolvedNameCallExpression)item.get()).getName();
+                        ReadableText operator = ((MgUnresolvedOperatorExpression)item.getNext()).getName();
+                        ReadableText name = ((MgUnresolvedNameCallExpression)item.getNextItem().getNext()).getName();
+                        MgUnresolvedDatatype logicalDatatype = MgBuildDeclarationTask.createDatatype(typeName, operator);
                         if(logicalDatatype != null){
                             MgResolveVariableDatatypeTask task = new MgResolveVariableDatatypeTask(context, logicalDatatype);
                             task.run();
@@ -102,7 +102,7 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
 
                             mergeBinary(
                                 item.getNextItem(),
-                                (left, right) -> new MgLogicalNameCallExpression(name)
+                                (left, right) -> new MgUnresolvedNameCallExpression(name)
                             );
                         }
                     }
@@ -111,18 +111,18 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         }
     }
 
-    private void resolveFunctionCalls(List<MgLogicalExpression> operators){
+    private void resolveFunctionCalls(List<MgUnresolvedExpression> operators){
         for(
-            ListItem<MgLogicalExpression> item = operators.getFirstItem();
+            ListItem<MgUnresolvedExpression> item = operators.getFirstItem();
             item != null;
             item = item.getNextItem()
         ){
             if(isPlainName(item)){
                 if(isCall(item.getNextItem())){
-                    MgLogicalNameCallExpression nameCallExpression = (MgLogicalNameCallExpression) item.get();
+                    MgUnresolvedNameCallExpression nameCallExpression = (MgUnresolvedNameCallExpression) item.get();
                     mergeLunary(
                         item,
-                        expression -> new MgLogicalFunctionCallExpression(
+                        expression -> new MgUnresolvedFunctionCallExpression(
                             nameCallExpression.getName(),
                             expression
                         )
@@ -132,9 +132,9 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         }
     }
 
-    private void resolveMemberCalls(List<MgLogicalExpression> operators){
+    private void resolveMemberCalls(List<MgUnresolvedExpression> operators){
         for(
-            ListItem<MgLogicalExpression> item = operators.getFirstItem();
+            ListItem<MgUnresolvedExpression> item = operators.getFirstItem();
             item != null;
             item = item.getNextItem()
         ){
@@ -144,15 +144,15 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         }
     }
 
-    private void resolveOperatorCalls(List<MgLogicalExpression> operators){
+    private void resolveOperatorCalls(List<MgUnresolvedExpression> operators){
         OperatorCache operatorCache = context.getOperatorCache();
         for(int p = operatorCache.getMaxPriority(); p >= operatorCache.getMinPriority(); p--){
             for(
-                ListItem<MgLogicalExpression> item = operators.getFirstItem();
+                ListItem<MgUnresolvedExpression> item = operators.getFirstItem();
                 item != null;
                 item = item.getNextItem()
             ){
-                MgLogicalExpression expression = item.get();
+                MgUnresolvedExpression expression = item.get();
                 if(expression instanceof CachedLogicalOperatorExpression){
                     CachedLogicalOperatorExpression logicalOperatorExpression = (CachedLogicalOperatorExpression) expression;
                     OperatorInfo operatorInfo = logicalOperatorExpression.getOperatorInfo();
@@ -160,7 +160,7 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
                         switch(operatorInfo.getPosition()){
                             case MIDDLE:
                                 mergeBinary(item, (leftOperand, rightOperand) -> {
-                                    return new MgLogicalBinaryOperatorCallExpression(
+                                    return new MgUnresolvedBinaryOperatorCallExpression(
                                         logicalOperatorExpression.getName(),
                                         leftOperand,
                                         rightOperand
@@ -169,7 +169,7 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
                                 break;
                             case LEFT:
                                 mergeLunary(item, operand -> {
-                                    return new MgLogicalLunaryOperatorCallExpression(
+                                    return new MgUnresolvedLunaryOperatorCallExpression(
                                         logicalOperatorExpression.getName(),
                                         operand
                                     );
@@ -177,7 +177,7 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
                                 break;
                             case RIGHT:
                                 mergeRunary(item, operand -> {
-                                    return new MgLogicalRunaryOperatorCallExpression(
+                                    return new MgUnresolvedRunaryOperatorCallExpression(
                                         logicalOperatorExpression.getName(),
                                         operand
                                     );
@@ -191,75 +191,75 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         }
     }
 
-    private void resolveGroupCalls(List<MgLogicalExpression> operators){
+    private void resolveGroupCalls(List<MgUnresolvedExpression> operators){
         for(
-            ListItem<MgLogicalExpression> item = operators.getFirstItem();
+            ListItem<MgUnresolvedExpression> item = operators.getFirstItem();
             item != null;
             item = item.getNextItem()
         ){
             if(isGroupOperator(item)){
-                ListItem<MgLogicalExpression> leftItem = item.getPreviousItem();
+                ListItem<MgUnresolvedExpression> leftItem = item.getPreviousItem();
                 if(isGroup(leftItem)){
                     mergeBinary(item, (leftExpression, rightExpression) -> {
-                        MgLogicalGroupCallExpression group = (MgLogicalGroupCallExpression) leftExpression;
+                        MgUnresolvedGroupCallExpression group = (MgUnresolvedGroupCallExpression) leftExpression;
                         group.getExpressions().addLast(rightExpression);
                         return group;
                     });
                 } else {
                     mergeBinary(item, (leftExpression, rightExpression) -> {
-                        return new MgLogicalGroupCallExpression(new List<>(leftExpression, rightExpression));
+                        return new MgUnresolvedGroupCallExpression(new List<>(leftExpression, rightExpression));
                     });
                 }
             }
         }
     }
 
-    private boolean isGroup(ListItem<MgLogicalExpression> item){
+    private boolean isGroup(ListItem<MgUnresolvedExpression> item){
         if(item == null) return false;
-        return item.get() instanceof MgLogicalGroupCallExpression;
+        return item.get() instanceof MgUnresolvedGroupCallExpression;
     }
 
-    private boolean isPlainName(ListItem<MgLogicalExpression> item){
+    private boolean isPlainName(ListItem<MgUnresolvedExpression> item){
         if(item == null) return false;
-        if(item.get() instanceof MgLogicalNameCallExpression){
+        if(item.get() instanceof MgUnresolvedNameCallExpression){
             // todo - might be redundant, parametrized should not be created yet
-            return ((MgLogicalNameCallExpression) item.get()).getExpression() == null;
+            return ((MgUnresolvedNameCallExpression) item.get()).getExpression() == null;
         }
         return false;
     }
 
-    private boolean isCall(ListItem<MgLogicalExpression> item){
+    private boolean isCall(ListItem<MgUnresolvedExpression> item){
         if(item == null) return false;
-        return item.get() instanceof MgLogicalCallExpression;
+        return item.get() instanceof MgUnresolvedCallExpression;
     }
 
-    private boolean isMemberAccessOperator(ListItem<MgLogicalExpression> item){
+    private boolean isMemberAccessOperator(ListItem<MgUnresolvedExpression> item){
         return isOperator(item, Operators.MEMBER_ACCESS);
     }
 
-    private boolean isGroupOperator(ListItem<MgLogicalExpression> item){
+    private boolean isGroupOperator(ListItem<MgUnresolvedExpression> item){
         return isOperator(item, Operators.GROUP);
     }
 
-    private boolean isOperator(ListItem<MgLogicalExpression> item, ReadableText name){
+    private boolean isOperator(ListItem<MgUnresolvedExpression> item, ReadableText name){
         if(item == null) return false;
-        if(item.get() instanceof MgLogicalOperatorExpression){
-            return ((MgLogicalOperatorExpression) item.get()).getName().equals(name);
+        if(item.get() instanceof MgUnresolvedOperatorExpression){
+            return ((MgUnresolvedOperatorExpression) item.get()).getName().equals(name);
         }
         return false;
     }
 
-    private boolean isOperator(ListItem<MgLogicalExpression> item){
+    private boolean isOperator(ListItem<MgUnresolvedExpression> item){
         if(item == null) return false;
-        if(item.get() instanceof MgLogicalOperatorExpression){
+        if(item.get() instanceof MgUnresolvedOperatorExpression){
             return true;
         }
         return false;
     }
 
-    private void mergeBinary(ListItem<MgLogicalExpression> item, LogicalBinaryExpressionCallFactory factory){
-        ListItem<MgLogicalExpression> leftItem = item.getPreviousItem();
-        ListItem<MgLogicalExpression> rightItem = item.getNextItem();
+    private void mergeBinary(ListItem<MgUnresolvedExpression> item, LogicalBinaryExpressionCallFactory factory){
+        ListItem<MgUnresolvedExpression> leftItem = item.getPreviousItem();
+        ListItem<MgUnresolvedExpression> rightItem = item.getNextItem();
         item.setData(factory.create(
             getCall(leftItem, "left"),
             getCall(rightItem, "right")
@@ -268,16 +268,16 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         rightItem.remove();
     }
 
-    private void mergeLunary(ListItem<MgLogicalExpression> item, LogicalUnaryExpressionCallFactory factory){
-        ListItem<MgLogicalExpression> rightItem = item.getNextItem();
+    private void mergeLunary(ListItem<MgUnresolvedExpression> item, LogicalUnaryExpressionCallFactory factory){
+        ListItem<MgUnresolvedExpression> rightItem = item.getNextItem();
         item.setData(factory.create(
             getCall(rightItem, "right")
         ));
         rightItem.remove();
     }
 
-    private void mergeRunary(ListItem<MgLogicalExpression> item, LogicalUnaryExpressionCallFactory factory){
-        ListItem<MgLogicalExpression> leftItem = item.getPreviousItem();
+    private void mergeRunary(ListItem<MgUnresolvedExpression> item, LogicalUnaryExpressionCallFactory factory){
+        ListItem<MgUnresolvedExpression> leftItem = item.getPreviousItem();
         item.setData(factory.create(
             getCall(leftItem, "left")
         ));
@@ -285,17 +285,17 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
     }
 
     private interface LogicalBinaryExpressionCallFactory {
-        MgLogicalCallExpression create(MgLogicalCallExpression leftExpression, MgLogicalCallExpression rightExpression);
+        MgUnresolvedCallExpression create(MgUnresolvedCallExpression leftExpression, MgUnresolvedCallExpression rightExpression);
     }
 
     private interface LogicalUnaryExpressionCallFactory {
-        MgLogicalCallExpression create(MgLogicalCallExpression expression);
+        MgUnresolvedCallExpression create(MgUnresolvedCallExpression expression);
     }
 
-    private MgLogicalCallExpression getCall(ListItem<MgLogicalExpression> item, String sideLabel){
+    private MgUnresolvedCallExpression getCall(ListItem<MgUnresolvedExpression> item, String sideLabel){
         if(item != null){
-            if(item.get() instanceof MgLogicalCallExpression){
-                return (MgLogicalCallExpression) item.get();
+            if(item.get() instanceof MgUnresolvedCallExpression){
+                return (MgUnresolvedCallExpression) item.get();
             } else {
                 throw new LanguageException("Illegal " + sideLabel + " operand.");
             }
@@ -304,27 +304,27 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         }
     }
 
-    private List<MgLogicalExpression> prepareExpressions(MgLogicalClumpExpression logicalClumpExpression){
-        List<MgLogicalExpression> expressions = new List<>();
-        for(MgLogicalExpression logicalExpression : logicalClumpExpression.getExpressions()){
+    private List<MgUnresolvedExpression> prepareExpressions(MgUnresolvedClumpExpression logicalClumpExpression){
+        List<MgUnresolvedExpression> expressions = new List<>();
+        for(MgUnresolvedExpression logicalExpression : logicalClumpExpression.getExpressions()){
             expressions.addLast(prepareExpression(resolveNestedGroups(logicalExpression)));
         }
         return expressions;
     }
 
-    private MgLogicalExpression prepareExpression(MgLogicalExpression logicalExpression){
-        if(logicalExpression instanceof MgLogicalNameCallExpression){
-            return prepareOperatorExpression((MgLogicalNameCallExpression) logicalExpression);
+    private MgUnresolvedExpression prepareExpression(MgUnresolvedExpression logicalExpression){
+        if(logicalExpression instanceof MgUnresolvedNameCallExpression){
+            return prepareOperatorExpression((MgUnresolvedNameCallExpression) logicalExpression);
         }
 
-        if(logicalExpression instanceof MgLogicalOperatorExpression){
-            return prepareOperatorExpression((MgLogicalOperatorExpression) logicalExpression);
+        if(logicalExpression instanceof MgUnresolvedOperatorExpression){
+            return prepareOperatorExpression((MgUnresolvedOperatorExpression) logicalExpression);
         }
 
         return logicalExpression;
     }
 
-    private MgLogicalExpression prepareOperatorExpression(MgLogicalNameCallExpression expression){
+    private MgUnresolvedExpression prepareOperatorExpression(MgUnresolvedNameCallExpression expression){
         OperatorInfo operatorInfo = findOperator(expression.getName());
         if(operatorInfo != null){
             return new CachedLogicalOperatorExpression(expression.getName(), operatorInfo);
@@ -333,7 +333,7 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         }
     }
 
-    private MgLogicalExpression prepareOperatorExpression(MgLogicalOperatorExpression expression){
+    private MgUnresolvedExpression prepareOperatorExpression(MgUnresolvedOperatorExpression expression){
         OperatorInfo operatorInfo = findOperator(expression.getName());
         if(operatorInfo != null){
             return new CachedLogicalOperatorExpression(expression.getName(), operatorInfo);
@@ -346,9 +346,9 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         return context.getOperatorCache().findOperator(name);
     }
 
-    private MgLogicalExpression resolveNestedGroups(MgLogicalExpression logicalExpression){
-        if(logicalExpression instanceof MgLogicalClumpExpression){
-            MgResolveExpressionTreeTask task = new MgResolveExpressionTreeTask(context, (MgLogicalClumpExpression) logicalExpression);
+    private MgUnresolvedExpression resolveNestedGroups(MgUnresolvedExpression logicalExpression){
+        if(logicalExpression instanceof MgUnresolvedClumpExpression){
+            MgResolveExpressionTreeTask task = new MgResolveExpressionTreeTask(context, (MgUnresolvedClumpExpression) logicalExpression);
             task.run();
             return task.getLogicalCallExpression();
         } else {
@@ -356,13 +356,13 @@ public class MgResolveExpressionTreeTask extends MgResolveTask {
         }
     }
 
-    private static MgLogicalMemberNameCallExpression createMemberNameCallExpression(
-        MgLogicalCallExpression left,
-        MgLogicalCallExpression right
+    private static MgUnresolvedMemberNameCallExpression createMemberNameCallExpression(
+        MgUnresolvedCallExpression left,
+        MgUnresolvedCallExpression right
     ){
-        if(right instanceof MgLogicalNameCallExpression){
-            MgLogicalNameCallExpression name = (MgLogicalNameCallExpression) right;
-            return new MgLogicalMemberNameCallExpression(left, name.getName(), name.getExpression());
+        if(right instanceof MgUnresolvedNameCallExpression){
+            MgUnresolvedNameCallExpression name = (MgUnresolvedNameCallExpression) right;
+            return new MgUnresolvedMemberNameCallExpression(left, name.getName(), name.getExpression());
         } else {
             throw new LanguageException("Member access must be followed by a name.");
         }
