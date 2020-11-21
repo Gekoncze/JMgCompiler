@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JMgCompiler:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JMgCompiler_jar</output-path>
+    <root id="archive" name="JMgCompiler.jar">
+      <element id="module-output" name="JMgCompiler" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../JMgAnnotations/out/artifacts/JMgAnnotations_jar/JMgAnnotations.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../JMgCollections/out/artifacts/JMgCollections_jar/JMgCollections.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

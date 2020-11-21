@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="JMgCollections">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../JMgCollections/out/artifacts/JMgCollections_jar/JMgCollections.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

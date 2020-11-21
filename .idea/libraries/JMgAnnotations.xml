@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="JMgAnnotations">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../JMgAnnotations/out/artifacts/JMgAnnotations_jar/JMgAnnotations.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
