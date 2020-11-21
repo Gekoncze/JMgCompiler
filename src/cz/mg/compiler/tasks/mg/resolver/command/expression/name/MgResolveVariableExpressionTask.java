@@ -18,7 +18,7 @@ public class MgResolveVariableExpressionTask extends MgResolveNameExpressionTask
 
     @Override
     protected void onResolve() {
-        new cz.mg.compiler.Todo();
+        new Todo();
 //        createNode(createFilter().findOptional());
 //
 //        if(logicalExpression.getExpression() != null){

@@ -13,8 +13,8 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgCommand;
 
 
 public class MgResolveBreakCommandTask extends MgResolveCommandTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedBreakCommand logicalCommand;
@@ -22,8 +22,8 @@ public class MgResolveBreakCommandTask extends MgResolveCommandTask {
     @Output
     private MgBreakCommand command;
 
-    public MgResolveBreakCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgUnresolvedBreakCommand logicalCommand) {
-        this.context = new cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext(context);
+    public MgResolveBreakCommandTask(CommandContext context, MgUnresolvedBreakCommand logicalCommand) {
+        this.context = new CommandContext(context);
         this.logicalCommand = logicalCommand;
     }
 
@@ -41,7 +41,7 @@ public class MgResolveBreakCommandTask extends MgResolveCommandTask {
     private MgCommand findTargetCommand(ReadableText name) {
         Context current = context;
         while(current != null){
-            if(current instanceof cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext){
+            if(current instanceof CommandContext){
                 MgCommand command = ((CommandContext) current).getCommand();
                 if(command instanceof Breakable){
                     if(name != null){

@@ -6,7 +6,7 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.compiler.tasks.mg.builder.MgBuildTask;
 
 
-public abstract class Processor<S extends cz.mg.compiler.tasks.mg.builder.MgBuildTask, D extends MgBuildTask, O extends Object> {
+public abstract class Processor<S extends MgBuildTask, D extends MgBuildTask, O extends Object> {
     @Mandatory @Part
     private final Class<S> sourceBuildTaskClass;
 

@@ -21,12 +21,12 @@ public class MgResolveClassDefinitionTask extends MgResolveComponentDefinitionTa
     private MgClass clazz;
 
     public MgResolveClassDefinitionTask(Context context, MgUnresolvedClass logicalClass) {
-        super(new cz.mg.compiler.tasks.mg.resolver.context.component.structured.ClassContext(context), logicalClass);
+        super(new ClassContext(context), logicalClass);
         this.logicalClass = logicalClass;
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.resolver.context.component.structured.ClassContext getContext() {
+    protected ClassContext getContext() {
         return (ClassContext) super.getContext();
     }
 

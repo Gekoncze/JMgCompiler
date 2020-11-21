@@ -29,8 +29,8 @@ import cz.mg.compiler.tasks.mg.resolver.link.MgResolveVariableDatatypeTask;
 
 
 public class MgResolveExpressionTreeTask extends MgResolveTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedClumpExpression logicalClumpExpression;

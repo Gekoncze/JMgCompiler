@@ -9,7 +9,7 @@ public class PartProcessor<S extends MgBuildPartTask, D extends MgBuildTask, P e
     public PartProcessor(
         Class<S> sourceBuildTaskClass,
         Class<D> destinationBuildTaskClass,
-        cz.mg.compiler.tasks.mg.builder.pattern.Setter<S, D> setter
+        Setter<S, D> setter
     ) {
         super(
             sourceBuildTaskClass,

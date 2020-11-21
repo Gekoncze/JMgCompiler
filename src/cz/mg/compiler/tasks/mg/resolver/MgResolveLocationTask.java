@@ -2,7 +2,12 @@ package cz.mg.compiler.tasks.mg.resolver;
 
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.annotations.Output;
+import cz.mg.compiler.tasks.mg.resolver.component.MgResolveClassDefinitionTask;
+import cz.mg.compiler.tasks.mg.resolver.component.MgResolveClassFunctionDefinitionTask;
+import cz.mg.compiler.tasks.mg.resolver.component.MgResolveCollectionDefinitionTask;
+import cz.mg.compiler.tasks.mg.resolver.component.MgResolveLocationFunctionDefinitionTask;
 import cz.mg.compiler.tasks.mg.resolver.component.MgResolveLocationVariableDefinitionTask;
+import cz.mg.compiler.tasks.mg.resolver.component.MgResolveStampDefinitionTask;
 import cz.mg.compiler.tasks.mg.resolver.context.Context;
 import cz.mg.compiler.tasks.mg.resolver.context.architecture.LocationContext;
 import cz.mg.language.entities.mg.unresolved.components.*;
@@ -17,12 +22,12 @@ public class MgResolveLocationTask extends MgPostponeResolveTask {
     private MgLocation location;
 
     protected MgResolveLocationTask(Context context, MgUnresolvedLocation logicalLocation) {
-        super(new cz.mg.compiler.tasks.mg.resolver.context.architecture.LocationContext(context));
+        super(new LocationContext(context));
         this.logicalLocation = logicalLocation;
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.resolver.context.architecture.LocationContext getContext() {
+    protected LocationContext getContext() {
         return (LocationContext) super.getContext();
     }
 
@@ -45,40 +50,40 @@ public class MgResolveLocationTask extends MgPostponeResolveTask {
             }
 
             if(logicalComponent instanceof MgUnresolvedCollection){
-                postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveCollectionDefinitionTask.class, () -> {
-                    cz.mg.compiler.tasks.mg.resolver.component.MgResolveCollectionDefinitionTask task = new cz.mg.compiler.tasks.mg.resolver.component.MgResolveCollectionDefinitionTask(getContext(), (MgUnresolvedCollection) logicalComponent);
+                postpone(MgResolveCollectionDefinitionTask.class, () -> {
+                    MgResolveCollectionDefinitionTask task = new MgResolveCollectionDefinitionTask(getContext(), (MgUnresolvedCollection) logicalComponent);
                     task.run();
                     location.getComponents().addLast(task.getCollection());
                 });
             }
 
             if(logicalComponent instanceof MgUnresolvedClass){
-                postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveClassDefinitionTask.class, () -> {
-                    cz.mg.compiler.tasks.mg.resolver.component.MgResolveClassDefinitionTask task = new cz.mg.compiler.tasks.mg.resolver.component.MgResolveClassDefinitionTask(getContext(), (MgUnresolvedClass) logicalComponent);
+                postpone(MgResolveClassDefinitionTask.class, () -> {
+                    MgResolveClassDefinitionTask task = new MgResolveClassDefinitionTask(getContext(), (MgUnresolvedClass) logicalComponent);
                     task.run();
                     location.getComponents().addLast(task.getClazz());
                 });
             }
 
             if(logicalComponent instanceof MgUnresolvedFunction){
-                postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveClassFunctionDefinitionTask.class, () -> {
-                    cz.mg.compiler.tasks.mg.resolver.component.MgResolveLocationFunctionDefinitionTask task = new cz.mg.compiler.tasks.mg.resolver.component.MgResolveLocationFunctionDefinitionTask(getContext(), (MgUnresolvedFunction) logicalComponent);
+                postpone(MgResolveClassFunctionDefinitionTask.class, () -> {
+                    MgResolveLocationFunctionDefinitionTask task = new MgResolveLocationFunctionDefinitionTask(getContext(), (MgUnresolvedFunction) logicalComponent);
                     task.run();
                     location.getComponents().addLast(task.getFunction());
                 });
             }
 
             if(logicalComponent instanceof MgUnresolvedStamp){
-                postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveStampDefinitionTask.class, () -> {
-                    cz.mg.compiler.tasks.mg.resolver.component.MgResolveStampDefinitionTask task = new cz.mg.compiler.tasks.mg.resolver.component.MgResolveStampDefinitionTask(getContext(), (MgUnresolvedStamp) logicalComponent);
+                postpone(MgResolveStampDefinitionTask.class, () -> {
+                    MgResolveStampDefinitionTask task = new MgResolveStampDefinitionTask(getContext(), (MgUnresolvedStamp) logicalComponent);
                     task.run();
                     location.getComponents().addLast(task.getStamp());
                 });
             }
 
             if(logicalComponent instanceof MgUnresolvedVariable){
-                postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveLocationVariableDefinitionTask.class, () -> {
-                    cz.mg.compiler.tasks.mg.resolver.component.MgResolveLocationVariableDefinitionTask task = new MgResolveLocationVariableDefinitionTask(getContext(), (MgUnresolvedVariable) logicalComponent);
+                postpone(MgResolveLocationVariableDefinitionTask.class, () -> {
+                    MgResolveLocationVariableDefinitionTask task = new MgResolveLocationVariableDefinitionTask(getContext(), (MgUnresolvedVariable) logicalComponent);
                     task.run();
                     location.getComponents().addLast(task.getVariable());
                 });

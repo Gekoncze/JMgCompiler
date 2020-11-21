@@ -8,7 +8,7 @@ import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 import cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext;
 
 
-public abstract class MgResolveUnaryOperatorExpressionTask extends cz.mg.compiler.tasks.mg.resolver.command.expression.operator.MgResolveOperatorExpressionTask {
+public abstract class MgResolveUnaryOperatorExpressionTask extends MgResolveOperatorExpressionTask {
     public MgResolveUnaryOperatorExpressionTask(
         CommandContext context,
         ExpectedParentInput parent

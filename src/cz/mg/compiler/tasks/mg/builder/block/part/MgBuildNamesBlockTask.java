@@ -5,24 +5,29 @@ import cz.mg.collections.list.List;
 import cz.mg.collections.text.ReadableText;
 import cz.mg.compiler.annotations.Output;
 import cz.mg.compiler.tasks.mg.builder.part.chain.list.MgBuildNameListTask;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Count;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
+import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
+import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
 
 
 public class MgBuildNamesBlockTask extends MgBuildBlockTask {
-    private static final cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor PROCESSOR = new cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor<>(
+    private static final PartProcessor PROCESSOR = new PartProcessor<>(
         MgBuildNameListTask.class,
         MgBuildNamesBlockTask.class,
         (source, destination) -> destination.names.addCollectionLast(source.getNames())
     );
 
-    private static final List<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
+    private static final List<Pattern> PATTERNS = new List<>(
+        new Pattern(
             Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.MANDATORY,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+            Requirement.MANDATORY,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildNameBlockTask.class,
                 MgBuildNamesBlockTask.class,
                 (source, destination) -> destination.names.addLast(source.getName())
@@ -47,12 +52,12 @@ public class MgBuildNamesBlockTask extends MgBuildBlockTask {
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor getProcessor() {
+    protected PartProcessor getProcessor() {
         return PROCESSOR;
     }
 
     @Override
-    protected Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {
+    protected Clump<Pattern> getPatterns() {
         if(names.isEmpty()){
             return PATTERNS;
         } else {

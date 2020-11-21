@@ -4,7 +4,12 @@ import cz.mg.collections.Clump;
 import cz.mg.collections.ReadableCollection;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Count;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
+import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
+import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedClass;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
@@ -14,19 +19,19 @@ import cz.mg.compiler.tasks.mg.builder.part.MgBuildNameTask;
 
 
 public class MgBuildClassTask extends MgBuildBlockTask {
-    private static final cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor PROCESSOR = new cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor<>(
+    private static final PartProcessor PROCESSOR = new PartProcessor<>(
         MgBuildNameTask.class,
         MgBuildClassTask.class,
         (source, destination) -> destination.clazz = new MgUnresolvedClass(source.getName())
     );
 
-    private static final ReadableCollection<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
+    private static final ReadableCollection<Pattern> PATTERNS = new List<>(
         // build base class names
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
                 MgBuildNamesBlockTask.class,
                 MgBuildClassTask.class,
                 (source, destination) -> destination.clazz.getBaseClasses().addCollectionLast(source.getNames())
@@ -35,11 +40,11 @@ public class MgBuildClassTask extends MgBuildBlockTask {
         ),
 
         // build variables
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildDeclarationBlockTask.class,
                 MgBuildClassTask.class,
                 (source, destination) -> destination.clazz.getVariables().addLast(source.getDeclaration())
@@ -47,11 +52,11 @@ public class MgBuildClassTask extends MgBuildBlockTask {
         ),
 
         // build functions
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildFunctionTask.class,
                 MgBuildClassTask.class,
                 (source, destination) -> destination.clazz.getFunctions().addLast(source.getFunction())
@@ -60,11 +65,11 @@ public class MgBuildClassTask extends MgBuildBlockTask {
         ),
 
         // build binary operator
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildBinaryOperatorTask.class,
                 MgBuildClassTask.class,
                 (source, destination) -> destination.clazz.getFunctions().addLast(source.getOperator())
@@ -73,11 +78,11 @@ public class MgBuildClassTask extends MgBuildBlockTask {
         ),
 
         // build lunary operator
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildLunaryOperatorTask.class,
                 MgBuildClassTask.class,
                 (source, destination) -> destination.clazz.getFunctions().addLast(source.getOperator())
@@ -86,11 +91,11 @@ public class MgBuildClassTask extends MgBuildBlockTask {
         ),
 
         // build runary operator
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
+        new Pattern(
             Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildRunaryOperatorTask.class,
                 MgBuildClassTask.class,
                 (source, destination) -> destination.clazz.getFunctions().addLast(source.getOperator())
@@ -116,12 +121,12 @@ public class MgBuildClassTask extends MgBuildBlockTask {
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor getProcessor() {
+    protected PartProcessor getProcessor() {
         return PROCESSOR;
     }
 
     @Override
-    protected Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {
+    protected Clump<Pattern> getPatterns() {
         return PATTERNS;
     }
 }

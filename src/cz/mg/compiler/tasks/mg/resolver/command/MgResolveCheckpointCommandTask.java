@@ -13,8 +13,8 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgTryCommand;
 
 
 public class MgResolveCheckpointCommandTask extends MgResolveCommandTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedCheckpointCommand logicalCommand;
@@ -36,7 +36,7 @@ public class MgResolveCheckpointCommandTask extends MgResolveCommandTask {
     protected void onRun() {
         MgTryCommand tryCommand = null;
         if(logicalCommand.getTryCommand() != null){
-            cz.mg.compiler.tasks.mg.resolver.command.MgResolveTryCommandTask resolveTryCommandTask = new MgResolveTryCommandTask(context, logicalCommand.getTryCommand());
+            MgResolveTryCommandTask resolveTryCommandTask = new MgResolveTryCommandTask(context, logicalCommand.getTryCommand());
             resolveTryCommandTask.run();
             tryCommand = resolveTryCommandTask.getCommand();
         }
@@ -45,7 +45,7 @@ public class MgResolveCheckpointCommandTask extends MgResolveCommandTask {
         if(logicalCommand.getCatchCommands() != null){
             catchCommands = new List<>();
             for(MgUnresolvedCatchCommand logicalCatchCommand : logicalCommand.getCatchCommands()){
-                cz.mg.compiler.tasks.mg.resolver.command.MgResolveCatchCommandTask resolveCatchCommandTask = new MgResolveCatchCommandTask(context, logicalCatchCommand);
+                MgResolveCatchCommandTask resolveCatchCommandTask = new MgResolveCatchCommandTask(context, logicalCatchCommand);
                 resolveCatchCommandTask.run();
                 catchCommands.addLast(resolveCatchCommandTask.getCommand());
             }
@@ -53,7 +53,7 @@ public class MgResolveCheckpointCommandTask extends MgResolveCommandTask {
 
         MgFinallyCommand finallyCommand = null;
         if(logicalCommand.getFinallyCommand() != null){
-            cz.mg.compiler.tasks.mg.resolver.command.MgResolveFinallyCommandTask resolveFinallyCommandTask = new MgResolveFinallyCommandTask(context, logicalCommand.getFinallyCommand());
+            MgResolveFinallyCommandTask resolveFinallyCommandTask = new MgResolveFinallyCommandTask(context, logicalCommand.getFinallyCommand());
             resolveFinallyCommandTask.run();
             finallyCommand = resolveFinallyCommandTask.getCommand();
         }

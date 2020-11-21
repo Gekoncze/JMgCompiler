@@ -8,7 +8,7 @@ public class BlockProcessor<S extends MgBuildBlockTask, D extends MgBuildBlockTa
     public BlockProcessor(
         Class<S> sourceBuildTaskClass,
         Class<D> destinationBuildTaskClass,
-        cz.mg.compiler.tasks.mg.builder.pattern.Setter<S, D> setter
+        Setter<S, D> setter
     ) {
         super(
             sourceBuildTaskClass,

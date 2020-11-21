@@ -6,12 +6,12 @@ import cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionCon
 
 
 public class FunctionBodyContext extends ExecutableContext {
-    public FunctionBodyContext(@Mandatory cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionContext outerContext) {
+    public FunctionBodyContext(@Mandatory FunctionContext outerContext) {
         super(outerContext);
     }
 
     @Override
-    public @Optional cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionContext getOuterContext() {
+    public @Optional FunctionContext getOuterContext() {
         return (FunctionContext) super.getOuterContext();
     }
 }

@@ -2,7 +2,11 @@ package cz.mg.compiler.tasks.mg.builder.block.root.command;
 
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Count;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
+import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
+import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedBlockCommand;
 import cz.mg.language.entities.text.structured.Block;
 import cz.mg.compiler.tasks.mg.builder.block.MgBuildBlockTask;
@@ -10,13 +14,13 @@ import cz.mg.compiler.tasks.mg.builder.block.part.MgBuildNameBlockTask;
 
 
 public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
-    private static final List<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
+    private static final List<Pattern> PATTERNS = new List<>(
         // build alias
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
                 MgBuildNameBlockTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().setName(source.getName())
@@ -25,11 +29,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build expression command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildExpressionCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -37,11 +41,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build if command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildIfCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -50,11 +54,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build switch command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildSwitchCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -63,11 +67,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build while command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildWhileCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -76,11 +80,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build return command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildReturnCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -89,11 +93,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build continue command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildContinueCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -102,11 +106,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build break command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildBreakCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -115,11 +119,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build rollback command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildRollbackCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -128,11 +132,11 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
         ),
 
         // build checkpoint command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
+        new Pattern(
             Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildCheckpointCommandTask.class,
                 MgBuildBlockCommandTask.class,
                 (source, destination) -> destination.getOutput().getCommands().addLast(source.getCommand())
@@ -149,7 +153,7 @@ public abstract class MgBuildBlockCommandTask extends MgBuildBlockTask {
     protected abstract MgUnresolvedBlockCommand getOutput();
 
     @Override
-    protected Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {
+    protected Clump<Pattern> getPatterns() {
         return PATTERNS;
     }
 }

@@ -28,7 +28,7 @@ public class MgParsePageTask extends Task {
         page = new Page();
         Array<ReadableText> rawLines = text.splitByEach("\n");
         for(ReadableText rawLine : rawLines){
-            cz.mg.compiler.tasks.mg.parser.MgParseLineTask task = new MgParseLineTask(rawLine);
+            MgParseLineTask task = new MgParseLineTask(rawLine);
             task.run();
             page.getLines().addLast(task.getLine());
         }

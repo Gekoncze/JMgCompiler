@@ -30,7 +30,7 @@ public class MgCompileDocumentLogicTask extends MgCompileFileLogicTask {
         MgLoadTextFileTask loadTextFileTask = new MgLoadTextFileTask(document.getFile());
         loadTextFileTask.run();
 
-        cz.mg.compiler.tasks.mg.parser.MgParsePageTask parsePageTask = new MgParsePageTask(loadTextFileTask.getContent());
+        MgParsePageTask parsePageTask = new MgParsePageTask(loadTextFileTask.getContent());
         parsePageTask.run();
 
         MgComposeBlocksTask parseBlocksTask = new MgComposeBlocksTask(parsePageTask.getPage());

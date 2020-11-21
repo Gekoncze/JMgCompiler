@@ -13,8 +13,8 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgContinueCommand;
 
 
 public class MgResolveContinueCommandTask extends MgResolveCommandTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedContinueCommand logicalCommand;
@@ -22,8 +22,8 @@ public class MgResolveContinueCommandTask extends MgResolveCommandTask {
     @Output
     private MgContinueCommand command;
 
-    public MgResolveContinueCommandTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, MgUnresolvedContinueCommand logicalCommand) {
-        this.context = new cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext(context);
+    public MgResolveContinueCommandTask(CommandContext context, MgUnresolvedContinueCommand logicalCommand) {
+        this.context = new CommandContext(context);
         this.logicalCommand = logicalCommand;
     }
 
@@ -41,7 +41,7 @@ public class MgResolveContinueCommandTask extends MgResolveCommandTask {
     private MgCommand findTargetCommand(ReadableText name) {
         Context current = context;
         while(current != null){
-            if(current instanceof cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext){
+            if(current instanceof CommandContext){
                 MgCommand command = ((CommandContext) current).getCommand();
                 if(command instanceof Continuable){
                     if(name != null){

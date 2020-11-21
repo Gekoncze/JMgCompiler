@@ -10,8 +10,8 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgSwitchCommand;
 
 
 public class MgResolveSwitchCommandTask extends MgResolveCommandTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedSwitchCommand logicalCommand;
@@ -36,7 +36,7 @@ public class MgResolveSwitchCommandTask extends MgResolveCommandTask {
 
         for(MgUnresolvedCaseCommand logicalCaseCommand : logicalCommand.getCommands()){
             if(logicalCaseCommand instanceof MgUnresolvedElseCommand){
-                cz.mg.compiler.tasks.mg.resolver.command.MgResolveElseCommandTask task = new MgResolveElseCommandTask(context, (MgUnresolvedElseCommand) logicalCaseCommand);
+                MgResolveElseCommandTask task = new MgResolveElseCommandTask(context, (MgUnresolvedElseCommand) logicalCaseCommand);
                 task.run();
                 command.getCaseCommands().addLast(task.getCommand());
             } else {

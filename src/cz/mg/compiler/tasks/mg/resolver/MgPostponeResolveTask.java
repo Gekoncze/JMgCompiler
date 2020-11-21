@@ -13,9 +13,9 @@ public abstract class MgPostponeResolveTask extends MgResolveTask {
     private final @Part Map<@Link Class, @Part List<@Part Runnable>> map = new Map<>();
 
     @Mandatory @Part
-    private final cz.mg.compiler.tasks.mg.resolver.context.Context context;
+    private final Context context;
 
-    public MgPostponeResolveTask(cz.mg.compiler.tasks.mg.resolver.context.Context context) {
+    public MgPostponeResolveTask(Context context) {
         this.context = context;
     }
 

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 
 public class MgLoadTextFileTask extends MgFileInputTask {
-    @cz.mg.compiler.annotations.Input
+    @Input
     private final ReadableText path;
 
     @Input

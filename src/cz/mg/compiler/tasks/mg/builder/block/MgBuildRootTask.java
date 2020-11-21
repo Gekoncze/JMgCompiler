@@ -4,8 +4,18 @@ import cz.mg.collections.ReadableCollection;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Cache;
 import cz.mg.compiler.annotations.Output;
+import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildBinaryOperatorTask;
+import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildClassTask;
+import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildFunctionTask;
+import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildLunaryOperatorTask;
 import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildRunaryOperatorTask;
+import cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Count;
+import cz.mg.compiler.tasks.mg.builder.pattern.Order;
 import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
+import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.LanguageException;
 import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedComponent;
 import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedWorkspace;
@@ -15,80 +25,80 @@ import cz.mg.language.entities.text.structured.Part;
 
 
 public class MgBuildRootTask extends MgBuildBlockTask {
-    private static final ReadableCollection<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
+    private static final ReadableCollection<Pattern> PATTERNS = new List<>(
         // build usages
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
+                MgBuildUsageTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.ALL)
+                (block, destination) -> new MgBuildUsageTask(block, MgUnresolvedUsage.Filter.ALL)
             ),
             "USING"
         ),
 
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
+                MgBuildUsageTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.CLASS)
+                (block, destination) -> new MgBuildUsageTask(block, MgUnresolvedUsage.Filter.CLASS)
             ),
             "USING", "CLASS"
         ),
 
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
+                MgBuildUsageTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.FUNCTION)
+                (block, destination) -> new MgBuildUsageTask(block, MgUnresolvedUsage.Filter.FUNCTION)
             ),
             "USING", "FUNCTION"
         ),
 
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
+                MgBuildUsageTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.OPERATOR)
+                (block, destination) -> new MgBuildUsageTask(block, MgUnresolvedUsage.Filter.OPERATOR)
             ),
             "USING", "OPERATOR"
         ),
 
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask.class,
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
+                MgBuildUsageTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.workspace.getUsages().addLast(source.getUsage()),
-                (block, destination) -> new cz.mg.compiler.tasks.mg.builder.block.root.MgBuildUsageTask(block, MgUnresolvedUsage.Filter.VARIABLE)
+                (block, destination) -> new MgBuildUsageTask(block, MgUnresolvedUsage.Filter.VARIABLE)
             ),
             "USING", "VARIABLE"
         ),
 
         // build class
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildClassTask.class,
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
+                MgBuildClassTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.setComponent(source.getClazz())
             ),
@@ -96,12 +106,12 @@ public class MgBuildRootTask extends MgBuildBlockTask {
         ),
 
         // build function
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildFunctionTask.class,
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
+                MgBuildFunctionTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.setComponent(source.getFunction())
             ),
@@ -109,12 +119,12 @@ public class MgBuildRootTask extends MgBuildBlockTask {
         ),
 
         // build binary operator
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildBinaryOperatorTask.class,
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
+                MgBuildBinaryOperatorTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.setComponent(source.getOperator())
             ),
@@ -122,12 +132,12 @@ public class MgBuildRootTask extends MgBuildBlockTask {
         ),
 
         // build lunary operator
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
-                cz.mg.compiler.tasks.mg.builder.block.root.MgBuildLunaryOperatorTask.class,
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
+                MgBuildLunaryOperatorTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.setComponent(source.getOperator())
             ),
@@ -135,11 +145,11 @@ public class MgBuildRootTask extends MgBuildBlockTask {
         ),
 
         // build runary operator
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.RANDOM,
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
                 MgBuildRunaryOperatorTask.class,
                 MgBuildRootTask.class,
                 (source, destination) -> destination.setComponent(source.getOperator())
@@ -181,7 +191,7 @@ public class MgBuildRootTask extends MgBuildBlockTask {
     }
 
     @Override
-    public ReadableCollection<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {
+    public ReadableCollection<Pattern> getPatterns() {
         return PATTERNS;
     }
 

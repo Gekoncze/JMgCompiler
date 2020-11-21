@@ -27,7 +27,7 @@ public class MgResolveVariableDatatypeTask extends MgPostponeResolveTask {
 
     @Override
     protected void onRun() {
-        cz.mg.compiler.tasks.mg.resolver.search.TypeSearch search = new TypeSearch(getContext().getGlobalSource(), logicalDatatype.getName());
+        TypeSearch search = new TypeSearch(getContext().getGlobalSource(), logicalDatatype.getName());
         this.datatype = new MgDatatype(
             search.find(),
             MgDatatype.Storage.valueOf(logicalDatatype.getStorage().name()),

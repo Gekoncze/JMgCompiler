@@ -25,7 +25,7 @@ public class MgComposeBlocksTask extends MgComposeTask {
     @Output
     private Block root = null;
 
-    @cz.mg.compiler.annotations.Utility
+    @Utility
     private final StampCollector pendingStamps = new StampCollector();
 
     @Utility
@@ -54,7 +54,7 @@ public class MgComposeBlocksTask extends MgComposeTask {
             collectStamps(parentBlock, line);
             if(isEmpty(line)) continue;
             collectKeywords(parentBlock, line);
-            cz.mg.compiler.tasks.mg.composer.MgComposePartsTask composePartsTask = new MgComposePartsTask(line.getTokens());
+            MgComposePartsTask composePartsTask = new MgComposePartsTask(line.getTokens());
             composePartsTask.run();
             Block block = new Block();
             block.getStamps().addCollectionLast(pendingStamps.take(parentBlock));

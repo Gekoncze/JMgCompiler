@@ -2,7 +2,12 @@ package cz.mg.compiler.tasks.mg.builder.block.root;
 
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Count;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
+import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
+import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedFunction;
 import cz.mg.language.entities.mg.unresolved.components.MgUnresolvedOperator;
 import cz.mg.language.entities.text.structured.Block;
@@ -10,13 +15,13 @@ import cz.mg.compiler.tasks.mg.builder.block.part.MgBuildPriorityBlockTask;
 
 
 public abstract class MgBuildOperatorTask extends MgBuildFunctionTask {
-    private static final List<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
+    private static final List<Pattern> PATTERNS = new List<>(
         // build priority
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
+        new Pattern(
             Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
                 MgBuildPriorityBlockTask.class,
                 MgBuildOperatorTask.class,
                 (source, destination) -> {
@@ -48,12 +53,12 @@ public abstract class MgBuildOperatorTask extends MgBuildFunctionTask {
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor getProcessor() {
+    protected PartProcessor getProcessor() {
         throw new RuntimeException();
     }
 
     @Override
-    protected Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {
+    protected Clump<Pattern> getPatterns() {
         return PATTERNS;
     }
 }

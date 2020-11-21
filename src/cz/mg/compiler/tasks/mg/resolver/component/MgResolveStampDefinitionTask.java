@@ -17,12 +17,12 @@ public class MgResolveStampDefinitionTask extends MgResolveComponentDefinitionTa
     private MgStamp stamp;
 
     public MgResolveStampDefinitionTask(Context context, MgUnresolvedStamp logicalStamp) {
-        super(new cz.mg.compiler.tasks.mg.resolver.context.component.StampContext(context), logicalStamp);
+        super(new StampContext(context), logicalStamp);
         this.logicalStamp = logicalStamp;
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.resolver.context.component.StampContext getContext() {
+    protected StampContext getContext() {
         return (StampContext) super.getContext();
     }
 

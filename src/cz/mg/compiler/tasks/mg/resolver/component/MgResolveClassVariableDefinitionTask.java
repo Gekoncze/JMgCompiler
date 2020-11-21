@@ -15,7 +15,7 @@ import cz.mg.compiler.tasks.mg.resolver.context.Context;
 
 
 public class MgResolveClassVariableDefinitionTask extends MgResolveVariableDefinitionTask {
-    @cz.mg.compiler.annotations.Input
+    @Input
     private final MgClass clazz;
 
     @Input

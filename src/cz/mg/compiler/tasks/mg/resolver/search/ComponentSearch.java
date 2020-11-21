@@ -77,7 +77,7 @@ public class ComponentSearch<Component extends MgComponent> {
     }
 
     public @Mandatory ReadableList<Component> findAll(){
-        Clump<cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage> availableComponents = source.getComponents();
+        Clump<Usage> availableComponents = source.getComponents();
         List<Component> acceptedComponents = new List<>();
         for(Usage usage : availableComponents){
             if(getType().isAssignableFrom(usage.getComponent().getClass())){

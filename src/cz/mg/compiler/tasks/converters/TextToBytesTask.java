@@ -10,21 +10,21 @@ import java.nio.charset.Charset;
 
 
 public class TextToBytesTask extends ConverterTask {
-    @cz.mg.compiler.annotations.Input
+    @Input
     private final ReadableText text;
 
     @Input
     private final Charset encoding;
 
     @Output
-    private cz.mg.compiler.io.Bytes bytes = null;
+    private Bytes bytes = null;
 
     public TextToBytesTask(ReadableText text, Charset encoding) {
         this.text = text;
         this.encoding = encoding;
     }
 
-    public cz.mg.compiler.io.Bytes getBytes() {
+    public Bytes getBytes() {
         return bytes;
     }
 

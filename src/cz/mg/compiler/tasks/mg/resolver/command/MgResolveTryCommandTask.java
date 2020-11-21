@@ -9,8 +9,8 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgTryCommand;
 
 
 public class MgResolveTryCommandTask extends MgResolveCommandTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedTryCommand logicalCommand;

@@ -6,12 +6,12 @@ import cz.mg.compiler.tasks.mg.resolver.link.MgResolveVariableDatatypeTask;
 
 
 public abstract class MgResolveVariableDefinitionTask extends MgResolveComponentDefinitionTask {
-    public MgResolveVariableDefinitionTask(cz.mg.compiler.tasks.mg.resolver.context.component.VariableContext context, MgUnresolvedVariable logicalVariable) {
+    public MgResolveVariableDefinitionTask(VariableContext context, MgUnresolvedVariable logicalVariable) {
         super(context, logicalVariable);
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.resolver.context.component.VariableContext getContext() {
+    protected VariableContext getContext() {
         return (VariableContext) super.getContext();
     }
 

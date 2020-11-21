@@ -6,6 +6,9 @@ import cz.mg.collections.list.List;
 import cz.mg.collections.text.ReadableText;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.tasks.mg.builder.MgBuildTask;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.MgPatternValidatorTask;
+import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
 import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
 import cz.mg.language.LanguageException;
 import cz.mg.language.entities.mg.unresolved.Stampable;
@@ -48,10 +51,10 @@ public abstract class MgBuildBlockTask extends MgBuildTask {
     }
 
     protected void buildBlocks(List<Block> blocks){
-        cz.mg.compiler.tasks.mg.builder.pattern.MgPatternValidatorTask validatorTask = new cz.mg.compiler.tasks.mg.builder.pattern.MgPatternValidatorTask(getPatterns());
+        MgPatternValidatorTask validatorTask = new MgPatternValidatorTask(getPatterns());
 
         for(Block block : blocks){
-            cz.mg.compiler.tasks.mg.builder.pattern.Pattern pattern = match(block);
+            Pattern pattern = match(block);
             validatorTask.register(block, pattern);
             createExecuteSet(pattern.getProcessor(), block);
         }
@@ -59,11 +62,11 @@ public abstract class MgBuildBlockTask extends MgBuildTask {
         validatorTask.run();
     }
 
-    private void createExecuteSet(cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor processor, Block block){
+    private void createExecuteSet(BlockProcessor processor, Block block){
         set(processor, execute(create(processor.getSourceBuildTaskClass(), block)));
     }
 
-    private void createExecuteSet(cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor processor, List<Part> parts){
+    private void createExecuteSet(PartProcessor processor, List<Part> parts){
         set(processor, execute(create(processor.getSourceBuildTaskClass(), parts)));
     }
 
@@ -93,20 +96,20 @@ public abstract class MgBuildBlockTask extends MgBuildTask {
         return task;
     }
 
-    private void set(cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor processor, MgBuildBlockTask task){
+    private void set(BlockProcessor processor, MgBuildBlockTask task){
         processor.getSetter().set(task, this);
     }
 
-    private void set(cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor processor, MgBuildPartTask task){
+    private void set(PartProcessor processor, MgBuildPartTask task){
         processor.getSetter().set(task, this);
     }
 
-    private cz.mg.compiler.tasks.mg.builder.pattern.Pattern match(Block childBlock){
+    private Pattern match(Block childBlock){
         if(getPatterns() == null){
             throw new LanguageException("Unexpected child block.");
         }
 
-        for(cz.mg.compiler.tasks.mg.builder.pattern.Pattern pattern : getPatterns()){
+        for(Pattern pattern : getPatterns()){
             if(match(pattern.getKeywords(), childBlock.getKeywords())){
                 return pattern;
             }
@@ -147,6 +150,6 @@ public abstract class MgBuildBlockTask extends MgBuildTask {
     }
 
     protected abstract Object getOutput();
-    protected abstract cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor getProcessor();
+    protected abstract PartProcessor getProcessor();
     protected abstract Clump<Pattern> getPatterns();
 }

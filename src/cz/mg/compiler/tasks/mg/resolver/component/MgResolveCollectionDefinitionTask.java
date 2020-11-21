@@ -18,12 +18,12 @@ public class MgResolveCollectionDefinitionTask extends MgResolveComponentDefinit
     private MgCollection collection;
 
     public MgResolveCollectionDefinitionTask(Context context, MgUnresolvedCollection logicalCollection) {
-        super(new cz.mg.compiler.tasks.mg.resolver.context.component.structured.CollectionContext(context), logicalCollection);
+        super(new CollectionContext(context), logicalCollection);
         this.logicalCollection = logicalCollection;
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.resolver.context.component.structured.CollectionContext getContext() {
+    protected CollectionContext getContext() {
         return (CollectionContext) super.getContext();
     }
 

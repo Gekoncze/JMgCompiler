@@ -3,6 +3,7 @@ package cz.mg.compiler.tasks.mg.composer;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Input;
 import cz.mg.compiler.tasks.mg.composer.group.MgComposeBracketsTask;
+import cz.mg.compiler.tasks.mg.composer.group.MgComposeColonsTask;
 import cz.mg.language.entities.text.structured.Part;
 
 
@@ -20,6 +21,6 @@ public class MgComposeAllGroupsTask extends MgComposeTask {
         groups.addLast(parts);
 
         new MgComposeBracketsTask(groups).run();
-        new cz.mg.compiler.tasks.mg.composer.group.MgComposeColonsTask(groups).run();
+        new MgComposeColonsTask(groups).run();
     }
 }

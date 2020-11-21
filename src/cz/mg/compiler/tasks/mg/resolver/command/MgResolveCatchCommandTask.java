@@ -10,8 +10,8 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgCatchCommand;
 
 
 public class MgResolveCatchCommandTask extends MgResolveCommandTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedCatchCommand logicalCommand;
@@ -31,7 +31,7 @@ public class MgResolveCatchCommandTask extends MgResolveCommandTask {
 
     @Override
     protected void onRun() {
-        cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask task = new MgResolveFunctionVariableDefinitionTask(
+        MgResolveFunctionVariableDefinitionTask task = new MgResolveFunctionVariableDefinitionTask(
             context, context.getFunctionContext().getFunction(), logicalCommand.getVariable()
         );
         task.run();

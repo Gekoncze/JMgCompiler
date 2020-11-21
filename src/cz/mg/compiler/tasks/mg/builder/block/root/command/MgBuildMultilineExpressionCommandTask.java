@@ -3,7 +3,11 @@ package cz.mg.compiler.tasks.mg.builder.block.root.command;
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Cache;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Count;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
+import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
+import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.entities.mg.Operators;
 import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedClumpExpression;
 import cz.mg.language.entities.mg.unresolved.parts.expressions.MgUnresolvedExpression;
@@ -12,12 +16,12 @@ import cz.mg.language.entities.text.structured.Block;
 
 
 public abstract class MgBuildMultilineExpressionCommandTask extends MgBuildCommandTask {
-    private static final Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
+    private static final Clump<Pattern> PATTERNS = new List<>(
+        new Pattern(
             Order.RANDOM,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildExpressionCommandTask.class,
                 MgBuildMultilineExpressionCommandTask.class,
                 (source, destination) -> {
@@ -60,7 +64,7 @@ public abstract class MgBuildMultilineExpressionCommandTask extends MgBuildComma
     }
 
     @Override
-    protected Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {
+    protected Clump<Pattern> getPatterns() {
         return PATTERNS;
     }
 

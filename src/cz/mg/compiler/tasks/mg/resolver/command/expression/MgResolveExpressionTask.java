@@ -19,13 +19,13 @@ import cz.mg.compiler.tasks.mg.resolver.command.utilities.ExpectedParentInput;
 
 
 public abstract class MgResolveExpressionTask extends MgResolveTask {
-    @Mandatory @cz.mg.compiler.annotations.Input
-    protected final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Mandatory @Input
+    protected final CommandContext context;
 
     @Optional @Input
     private final ExpectedParentInput parent;
 
-    public MgResolveExpressionTask(cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context, ExpectedParentInput parent) {
+    public MgResolveExpressionTask(CommandContext context, ExpectedParentInput parent) {
         this.context = context;
         this.parent = parent;
     }

@@ -8,16 +8,16 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgCommand;
 import cz.mg.compiler.tasks.mg.resolver.command.utilities.OperatorCache;
 
 
-public class CommandContext extends cz.mg.compiler.tasks.mg.resolver.context.executable.ExecutableContext {
+public class CommandContext extends ExecutableContext {
     @Optional @Link
     private MgCommand command;
 
-    public CommandContext(@Mandatory cz.mg.compiler.tasks.mg.resolver.context.executable.ExecutableContext outerContext) {
+    public CommandContext(@Mandatory ExecutableContext outerContext) {
         super(outerContext);
     }
 
     @Override
-    public @Optional cz.mg.compiler.tasks.mg.resolver.context.executable.ExecutableContext getOuterContext() {
+    public @Optional ExecutableContext getOuterContext() {
         return (ExecutableContext) super.getOuterContext();
     }
 
@@ -29,7 +29,7 @@ public class CommandContext extends cz.mg.compiler.tasks.mg.resolver.context.exe
         this.command = command;
     }
 
-    public cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionContext getFunctionContext(){
+    public FunctionContext getFunctionContext(){
         if(getOuterContext() instanceof CommandContext){
             return ((CommandContext) getOuterContext()).getFunctionContext();
         } else if(getOuterContext() instanceof FunctionBodyContext) {

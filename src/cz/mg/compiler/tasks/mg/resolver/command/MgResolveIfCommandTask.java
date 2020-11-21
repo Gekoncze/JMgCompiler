@@ -12,8 +12,8 @@ import cz.mg.language.entities.mg.runtime.parts.commands.MgIfCommand;
 
 
 public class MgResolveIfCommandTask extends MgResolveCommandTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.tasks.mg.resolver.context.executable.CommandContext context;
+    @Input
+    private final CommandContext context;
 
     @Input
     private final MgUnresolvedIfCommand logicalCommand;
@@ -33,10 +33,10 @@ public class MgResolveIfCommandTask extends MgResolveCommandTask {
 
     @Override
     protected void onRun() {
-        cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTreeTask resolveExpressionTreeTask = new MgResolveExpressionTreeTask(context, logicalCommand.getExpression());
+        MgResolveExpressionTreeTask resolveExpressionTreeTask = new MgResolveExpressionTreeTask(context, logicalCommand.getExpression());
         resolveExpressionTreeTask.run();
 
-        cz.mg.compiler.tasks.mg.resolver.command.expression.MgResolveExpressionTask resolveExpressionTask = MgResolveExpressionTask.create(
+        MgResolveExpressionTask resolveExpressionTask = MgResolveExpressionTask.create(
             context,
             resolveExpressionTreeTask.getLogicalCallExpression(),
             new ExpectedParentInput(MgIfCommand.DATATYPE)

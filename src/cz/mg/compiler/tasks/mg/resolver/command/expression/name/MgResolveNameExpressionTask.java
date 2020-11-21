@@ -19,7 +19,7 @@ public abstract class MgResolveNameExpressionTask extends MgResolveExpressionTas
     ) {
         super(context, parent);
         this.logicalExpression = logicalExpression;
-        new cz.mg.compiler.Todo();
+        new Todo();
     }
 
 //    private Node createNode(MgObject object){

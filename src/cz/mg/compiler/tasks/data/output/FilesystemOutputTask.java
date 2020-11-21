@@ -11,11 +11,11 @@ import java.nio.file.StandardOpenOption;
 
 
 public class FilesystemOutputTask extends OutputTask {
-    @cz.mg.compiler.annotations.Input
+    @Input
     private final ReadableText url;
 
     @Input
-    private final cz.mg.compiler.io.Bytes bytes;
+    private final Bytes bytes;
 
     public FilesystemOutputTask(ReadableText url, Bytes bytes) {
         this.url = url;

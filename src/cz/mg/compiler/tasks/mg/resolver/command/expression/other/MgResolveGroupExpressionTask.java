@@ -24,7 +24,7 @@ public class MgResolveGroupExpressionTask extends MgResolveExpressionTask {
 
     @Override
     protected void onResolve() {
-        new cz.mg.compiler.Todo();
+        new Todo();
     }
 
     @Override

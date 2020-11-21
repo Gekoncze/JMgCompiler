@@ -15,12 +15,12 @@ public class MgResolveFunctionExpressionTask extends MgResolveExpressionTask {
         ExpectedParentInput parent
     ) {
         super(context, parent);
-        new cz.mg.compiler.Todo();
+        new Todo();
     }
 
     @Override
     protected void onResolve() {
-        new cz.mg.compiler.Todo();
+        new Todo();
     }
 
     @Override

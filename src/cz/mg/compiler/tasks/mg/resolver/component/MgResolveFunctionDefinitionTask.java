@@ -22,16 +22,16 @@ public abstract class MgResolveFunctionDefinitionTask extends MgResolveComponent
     protected MgFunction function;
 
     @Utility
-    private cz.mg.compiler.tasks.mg.resolver.context.executable.FunctionBodyContext functionBodyContext;
+    private FunctionBodyContext functionBodyContext;
 
     public MgResolveFunctionDefinitionTask(Context context, MgUnresolvedFunction logicalFunction) {
-        super(new cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionContext(context), logicalFunction);
+        super(new FunctionContext(context), logicalFunction);
         this.logicalFunction = logicalFunction;
         this.functionBodyContext = new FunctionBodyContext(getContext());
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.resolver.context.component.structured.FunctionContext getContext() {
+    protected FunctionContext getContext() {
         return (FunctionContext) super.getContext();
     }
 
@@ -41,16 +41,16 @@ public abstract class MgResolveFunctionDefinitionTask extends MgResolveComponent
 
     protected void onResolveComponentChildren(){
         for(MgUnresolvedVariable logicalInput : logicalFunction.getInput()){
-            postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask.class, () -> {
-                cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask task = new cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask(getContext(), function, logicalInput);
+            postpone(MgResolveFunctionVariableDefinitionTask.class, () -> {
+                MgResolveFunctionVariableDefinitionTask task = new MgResolveFunctionVariableDefinitionTask(getContext(), function, logicalInput);
                 task.run();
                 function.getInputVariables().addLast(task.getVariable());
             });
         }
 
         for(MgUnresolvedVariable logicalOutput : logicalFunction.getOutput()){
-            postpone(cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask.class, () -> {
-                cz.mg.compiler.tasks.mg.resolver.component.MgResolveFunctionVariableDefinitionTask task = new MgResolveFunctionVariableDefinitionTask(getContext(), function, logicalOutput);
+            postpone(MgResolveFunctionVariableDefinitionTask.class, () -> {
+                MgResolveFunctionVariableDefinitionTask task = new MgResolveFunctionVariableDefinitionTask(getContext(), function, logicalOutput);
                 task.run();
                 function.getOutputVariables().addLast(task.getVariable());
             });

@@ -1,30 +1,31 @@
 package cz.mg.compiler.tasks.mg.builder.pattern;
 
+import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
 import cz.mg.collections.text.ReadableText;
 import cz.mg.collections.text.ReadonlyText;
 
 
 public class Pattern {
-    @cz.mg.annotations.storage.Part
+    @Part
     private final Order order;
 
-    @cz.mg.annotations.storage.Part
-    private final cz.mg.compiler.tasks.mg.builder.pattern.Requirement requirement;
+    @Part
+    private final Requirement requirement;
 
-    @cz.mg.annotations.storage.Part
-    private final cz.mg.compiler.tasks.mg.builder.pattern.Count count;
+    @Part
+    private final Count count;
 
-    @cz.mg.annotations.storage.Part
+    @Part
     private final BlockProcessor processor;
 
-    @cz.mg.annotations.storage.Part
+    @Part
     private final List<ReadableText> keywords = new List<>();
 
     public Pattern(
             Order order,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement requirement,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count count,
+            Requirement requirement,
+            Count count,
             BlockProcessor processor,
             String... keywords
     ){

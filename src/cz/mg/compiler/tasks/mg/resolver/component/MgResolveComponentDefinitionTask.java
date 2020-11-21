@@ -20,13 +20,13 @@ public abstract class MgResolveComponentDefinitionTask extends MgPostponeResolve
     @Input
     private final MgUnresolvedComponent logicalComponent;
 
-    public MgResolveComponentDefinitionTask(cz.mg.compiler.tasks.mg.resolver.context.component.ComponentContext context, MgUnresolvedComponent logicalComponent) {
+    public MgResolveComponentDefinitionTask(ComponentContext context, MgUnresolvedComponent logicalComponent) {
         super(context);
         this.logicalComponent = logicalComponent;
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.resolver.context.component.ComponentContext getContext() {
+    protected ComponentContext getContext() {
         return (ComponentContext) super.getContext();
     }
 

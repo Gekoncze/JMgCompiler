@@ -3,7 +3,12 @@ package cz.mg.compiler.tasks.mg.builder.block.root.command;
 import cz.mg.collections.Clump;
 import cz.mg.collections.list.List;
 import cz.mg.compiler.annotations.Output;
+import cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Count;
 import cz.mg.compiler.tasks.mg.builder.pattern.Order;
+import cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor;
+import cz.mg.compiler.tasks.mg.builder.pattern.Pattern;
+import cz.mg.compiler.tasks.mg.builder.pattern.Requirement;
 import cz.mg.language.LanguageException;
 import cz.mg.language.entities.mg.unresolved.parts.commands.MgUnresolvedSwitchCommand;
 import cz.mg.language.entities.text.structured.Block;
@@ -11,13 +16,13 @@ import cz.mg.language.entities.text.structured.Part;
 
 
 public class MgBuildSwitchCommandTask extends MgBuildCommandTask {
-    private static final List<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> PATTERNS = new List<>(
+    private static final List<Pattern> PATTERNS = new List<>(
         // build case command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
-            cz.mg.compiler.tasks.mg.builder.pattern.Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.MULTIPLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+        new Pattern(
+            Order.STRICT,
+            Requirement.OPTIONAL,
+            Count.MULTIPLE,
+            new BlockProcessor<>(
                 MgBuildCaseCommandTask.class,
                 MgBuildSwitchCommandTask.class,
                 (source, destination) -> destination.command.getCommands().addLast(source.getCommand())
@@ -26,11 +31,11 @@ public class MgBuildSwitchCommandTask extends MgBuildCommandTask {
         ),
 
         // build else command
-        new cz.mg.compiler.tasks.mg.builder.pattern.Pattern(
+        new Pattern(
             Order.STRICT,
-            cz.mg.compiler.tasks.mg.builder.pattern.Requirement.OPTIONAL,
-            cz.mg.compiler.tasks.mg.builder.pattern.Count.SINGLE,
-            new cz.mg.compiler.tasks.mg.builder.pattern.BlockProcessor<>(
+            Requirement.OPTIONAL,
+            Count.SINGLE,
+            new BlockProcessor<>(
                 MgBuildElseCommandTask.class,
                 MgBuildSwitchCommandTask.class,
                 (source, destination) -> destination.command.getCommands().addLast(source.getCommand())
@@ -56,12 +61,12 @@ public class MgBuildSwitchCommandTask extends MgBuildCommandTask {
     }
 
     @Override
-    protected cz.mg.compiler.tasks.mg.builder.pattern.PartProcessor getProcessor() {
+    protected PartProcessor getProcessor() {
         return null;
     }
 
     @Override
-    protected Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> getPatterns() {
+    protected Clump<Pattern> getPatterns() {
         return PATTERNS;
     }
 

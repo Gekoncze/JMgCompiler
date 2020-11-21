@@ -17,13 +17,13 @@ public class FilesystemInputTask extends InputTask {
     private final ReadableText url;
 
     @Output
-    private cz.mg.compiler.io.Bytes bytes = null;
+    private Bytes bytes = null;
 
     public FilesystemInputTask(ReadableText url) {
         this.url = url;
     }
 
-    public cz.mg.compiler.io.Bytes getBytes() {
+    public Bytes getBytes() {
         return bytes;
     }
 

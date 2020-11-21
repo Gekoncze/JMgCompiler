@@ -6,7 +6,7 @@ import cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage;
 
 
 public class EmptySource implements Source {
-    private static final Array<cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage> EMPTY_ARRAY = new Array<>();
+    private static final Array<Usage> EMPTY_ARRAY = new Array<>();
     private static final EmptySource INSTANCE = new EmptySource();
 
     public static EmptySource getInstance() {

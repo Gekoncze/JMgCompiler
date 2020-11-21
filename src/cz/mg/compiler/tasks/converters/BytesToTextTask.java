@@ -10,8 +10,8 @@ import java.nio.charset.Charset;
 
 
 public class BytesToTextTask extends ConverterTask {
-    @cz.mg.compiler.annotations.Input
-    private final cz.mg.compiler.io.Bytes bytes;
+    @Input
+    private final Bytes bytes;
 
     @Input
     private final Charset encoding;

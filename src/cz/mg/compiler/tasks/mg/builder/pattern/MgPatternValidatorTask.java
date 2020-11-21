@@ -13,17 +13,17 @@ import java.util.Iterator;
 
 public class MgPatternValidatorTask extends Task {
     @Input
-    private final Clump<? extends cz.mg.compiler.tasks.mg.builder.pattern.Pattern> patterns;
+    private final Clump<? extends Pattern> patterns;
 
-    private Map<Object, cz.mg.compiler.tasks.mg.builder.pattern.Pattern> patternUsageMap = new Map<>();
-    private Map<cz.mg.compiler.tasks.mg.builder.pattern.Pattern, Integer> patternUsageCount = new Map<>();
-    private List<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> patternUsageOrder = new List<>();
+    private Map<Object, Pattern> patternUsageMap = new Map<>();
+    private Map<Pattern, Integer> patternUsageCount = new Map<>();
+    private List<Pattern> patternUsageOrder = new List<>();
 
-    public MgPatternValidatorTask(Clump<? extends cz.mg.compiler.tasks.mg.builder.pattern.Pattern> patterns) {
+    public MgPatternValidatorTask(Clump<? extends Pattern> patterns) {
         this.patterns = patterns;
     }
 
-    public void register(Object object, cz.mg.compiler.tasks.mg.builder.pattern.Pattern pattern){
+    public void register(Object object, Pattern pattern){
         patternUsageMap.set(object, pattern);
         patternUsageCount.set(pattern, patternUsageCount.get(pattern, 0) + 1);
         patternUsageOrder.addLast(pattern);
@@ -39,16 +39,16 @@ public class MgPatternValidatorTask extends Task {
     }
 
     private void validateOrder(){
-        Clump<? extends cz.mg.compiler.tasks.mg.builder.pattern.Pattern> expectation = new FilteredCollection<>(
+        Clump<? extends Pattern> expectation = new FilteredCollection<>(
                 patterns,
                 pattern -> pattern.getOrder() == Order.STRICT
         );
-        Clump<cz.mg.compiler.tasks.mg.builder.pattern.Pattern> reality = patternUsageOrder;
+        Clump<Pattern> reality = patternUsageOrder;
 
-        Iterator<? extends cz.mg.compiler.tasks.mg.builder.pattern.Pattern> expectationIterator = expectation.iterator();
-        cz.mg.compiler.tasks.mg.builder.pattern.Pattern currentExpectation = expectationIterator.next();
+        Iterator<? extends Pattern> expectationIterator = expectation.iterator();
+        Pattern currentExpectation = expectationIterator.next();
 
-        for(cz.mg.compiler.tasks.mg.builder.pattern.Pattern currentReality : reality){
+        for(Pattern currentReality : reality){
             while(currentReality != currentExpectation){
                 if(currentExpectation == null){
                     if(currentReality.getOrder() == Order.RANDOM){
@@ -63,7 +63,7 @@ public class MgPatternValidatorTask extends Task {
     }
 
     private void validateRequirement(){
-        for(cz.mg.compiler.tasks.mg.builder.pattern.Pattern pattern : patterns){
+        for(Pattern pattern : patterns){
             switch (pattern.getRequirement()){
                 case MANDATORY:
                     if(patternUsageCount.get(pattern, 0) < 0)

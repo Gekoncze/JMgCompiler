@@ -26,21 +26,21 @@ public class MgResolveUsageTask extends MgPostponeResolveTask {
     private final MgUnresolvedUsage logicalUsage;
 
     @Output
-    private List<cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage> usages;
+    private List<Usage> usages;
 
-    public MgResolveUsageTask(cz.mg.compiler.tasks.mg.resolver.context.Context context, MgUnresolvedUsage logicalUsage) {
+    public MgResolveUsageTask(Context context, MgUnresolvedUsage logicalUsage) {
         super(context);
         this.logicalUsage = logicalUsage;
     }
 
-    public List<cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage> getUsages() {
+    public List<Usage> getUsages() {
         return usages;
     }
 
-    private cz.mg.compiler.tasks.mg.resolver.context.architecture.ApplicationContext getApplicationContext(){
+    private ApplicationContext getApplicationContext(){
         Context context = getContext();
         while(context != null){
-            if(context instanceof cz.mg.compiler.tasks.mg.resolver.context.architecture.ApplicationContext){
+            if(context instanceof ApplicationContext){
                 return (ApplicationContext) context;
             }
             context = context.getOuterContext();
@@ -81,7 +81,7 @@ public class MgResolveUsageTask extends MgPostponeResolveTask {
         if(accept(component)){
             if(logicalUsage.getFilter() == MgUnresolvedUsage.Filter.OPERATOR){
                 if(logicalUsage.getAlias() == null){
-                    usages.addLast(new cz.mg.compiler.tasks.mg.resolver.command.utilities.Usage(component, component.getName()));
+                    usages.addLast(new Usage(component, component.getName()));
                 } else {
                     throw new LanguageException("Operator usages cannot have an alias.");
                 }
